@@ -23,6 +23,30 @@ export async function submitRsvp(payload: RsvpPayload) {
     };
   }
 
+  const cleanFullName = fullName.replace(/\s+/g, " ");
+  const nameParts = cleanFullName.split(" ");
+
+  if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/.test(cleanFullName)) {
+    return {
+      success: false,
+      message: "El nombre solo debe contener letras.",
+    };
+  }
+
+  if (nameParts.length < 2) {
+    return {
+      success: false,
+      message: "Debes ingresar al menos un nombre y un apellido.",
+    };
+  }
+
+  if (!/^9\d{8}$/.test(phone)) {
+    return {
+      success: false,
+      message: "Debes ingresar un celular válido de 9 dígitos que empiece con 9.",
+    };
+  }
+
   let guest = null;
 
   if (payload.guestId) {
@@ -37,7 +61,7 @@ export async function submitRsvp(payload: RsvpPayload) {
     const { data } = await supabase
       .from("guests")
       .select("id, full_name, max_companions")
-      .ilike("full_name", `%${fullName}%`)
+      .ilike("full_name", `%${cleanFullName}%`)
       .limit(1)
       .maybeSingle();
 
@@ -77,7 +101,7 @@ export async function submitRsvp(payload: RsvpPayload) {
     const { error } = await supabase
       .from("rsvps")
       .update({
-        full_name: guest?.full_name ?? fullName,
+        full_name: guest?.full_name ?? cleanFullName,
         phone,
         attendance: payload.attendance,
         companions,
@@ -104,7 +128,7 @@ export async function submitRsvp(payload: RsvpPayload) {
 
   const { error } = await supabase.from("rsvps").insert({
     guest_id: guest?.id ?? null,
-    full_name: guest?.full_name ?? fullName,
+    full_name: guest?.full_name ?? cleanFullName,
     phone,
     attendance: payload.attendance,
     companions,

@@ -29,6 +29,7 @@ export default function RsvpSection({ guest = null }: Props) {
   });
 
   const [result, setResult] = useState("");
+  const [fullNameError, setFullNameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [showAttendanceOptions, setShowAttendanceOptions] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -57,15 +58,34 @@ export default function RsvpSection({ guest = null }: Props) {
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!/^\d{9}$/.test(form.phone)) {
-      setPhoneError("Ingresa un número celular válido de 9 dígitos.");
+    const cleanFullName = form.fullName.trim().replace(/\s+/g, " ");
+    const nameParts = cleanFullName.split(" ");
+
+    setFullNameError("");
+    setPhoneError("");
+    setResult("");
+
+    if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/.test(cleanFullName)) {
+      setFullNameError(
+        "Ingresa solo letras. No se permiten números ni caracteres especiales."
+      );
+      return;
+    }
+
+    if (nameParts.length < 2) {
+      setFullNameError("Ingresa al menos un nombre y un apellido.");
+      return;
+    }
+
+    if (!/^9\d{8}$/.test(form.phone)) {
+      setPhoneError("Ingresa un celular válido de 9 dígitos que empiece con 9.");
       return;
     }
 
     startTransition(async () => {
       const response = await submitRsvp({
         guestId: guest?.id ?? null,
-        fullName: form.fullName,
+        fullName: cleanFullName,
         phone: form.phone,
         attendance: form.attendance,
         companions: Number(form.companions),
@@ -121,12 +141,34 @@ export default function RsvpSection({ guest = null }: Props) {
           <input
             name="fullName"
             value={form.fullName}
-            onChange={updateField}
+            onChange={(event) => {
+              const value = event.target.value.replace(
+                /[^A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]/g,
+                ""
+              );
+
+              setForm({
+                ...form,
+                fullName: value,
+              });
+
+              setFullNameError("");
+            }}
             required
             readOnly={Boolean(guest)}
             placeholder="Nombre completo"
-            className="w-full rounded-2xl bg-white px-5 py-4 text-lg text-black outline-none read-only:bg-white/90"
+            className={`w-full rounded-2xl bg-white px-5 py-4 text-lg text-black outline-none transition read-only:bg-white/90 ${
+              fullNameError
+                ? "border-2 border-red-500"
+                : "border-2 border-transparent"
+            }`}
           />
+
+          {fullNameError && (
+            <p className="px-2 text-sm font-medium text-red-400">
+              {fullNameError}
+            </p>
+          )}
 
           <input
             name="phone"
