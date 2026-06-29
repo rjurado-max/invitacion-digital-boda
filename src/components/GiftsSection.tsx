@@ -225,7 +225,18 @@ export default function GiftsSection() {
         {view === "list" && (
           <>
             <div className="text-center">
-              <h2 className="font-serif text-5xl leading-tight text-[#211b17]">
+              <h2
+                className="
+                  mx-auto
+                  max-w-md
+                  font-serif
+                  text-4xl
+                  sm:text-5xl
+                  leading-tight
+                  break-words
+                  text-[#211b17]
+                "
+              >
                 {selectedCategory}
               </h2>
             </div>
