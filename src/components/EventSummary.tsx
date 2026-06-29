@@ -3,12 +3,12 @@ import { EVENT_CONFIG } from "@/lib/constants";
 
 export default function EventSummary() {
   return (
-    <section className="bg-[#111] px-6 pb-16">
+    <section className="bg-[#111] px-6 pt-16 pb-16">
       <div className="mx-auto max-w-[520px] rounded-[2rem] border border-white/15 bg-white/10 p-6 text-white backdrop-blur-md">
         <div className="space-y-5">
           <div className="rounded-[1.5rem] bg-white/10 p-6">
             <CalendarDays className="mb-4 text-[#e8d7ad]" />
-            <p className="text-xl font-bold">Sábado 21 de Noviembre, 2026</p>
+            <p className="text-xl font-bold">Sábado 05 de Septiembre, 2026</p>
           </div>
 
           <div className="rounded-[1.5rem] bg-white/10 p-6">

@@ -1,32 +1,34 @@
 export const EVENT_CONFIG = {
-  brideName: "Isabella",
-  groomName: "Sebastián",
-  coupleNames: "Isabella & Sebastián",
-  initials: "I · S",
+  brideName: "Frances",
+  groomName: "Roger",
+  coupleNames: "Frances & Roger",
+  initials: "F · R",
   year: "2026",
-  eventDate: "2026-11-21T17:30:00-05:00",
+  eventDate: "2026-09-05T14:00:00-10:00",
 
   ceremony: {
-    time: "5:30 PM",
-    title: "Catedral Santa María del Lago",
-    address: "Av. Principal 125, Ciudad",
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Catedral+Santa+Maria+del+Lago",
+    time: "3:15 PM",
+    title: "Salón de Eventos Villa del Mar",
+    address: "Calle las Petunias, Villa el Salvador 15842, Lima",
+    mapsUrl: "https://maps.app.goo.gl/NVyXm44biXpQ79W49?g_st=awb",
   },
 
   reception: {
-    time: "7:30 PM",
-    title: "Grand Royal Garden Ballroom",
-    address: "Boulevard Elegancia 480, Ciudad",
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Royal+Garden+Ballroom",
+    time: "5:20 PM",
+    title: "Salón de Eventos Villa del Mar",
+    address: "Calle las Petunias, Villa el Salvador 15842, Lima",
+    mapsUrl: "https://maps.app.goo.gl/NVyXm44biXpQ79W49?g_st=awb",
   },
 
-  hashtag: "#IsabellaYSebastian",
+  hashtag: "#FrancesYRoger",
+
+  tableFinderEnabled: true,
 
   bank: {
-    yapeNumber: "999 999 999",
-    accountNumber: "000-000-0000000000",
-    cci: "000-000-00000000000000",
-    holder: "Nombre del titular",
+    yapeNumber: "918 707 082",
+    accountNumber: "898-336-7689686",
+    cci: "003-898-013367689686-42",
+    holder: "Frances Carolina Vera Ramírez - Interbank",
   },
 
   music: {

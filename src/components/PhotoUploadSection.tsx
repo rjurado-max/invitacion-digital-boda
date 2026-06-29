@@ -116,7 +116,8 @@ export default function PhotoUploadSection({
             accept="image/*"
             multiple
             onChange={handleFiles}
-            className="hidden"
+            disabled={uploading}
+            className="sr-only"
           />
 
           <div className="mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-full border border-[#eadfce] bg-[#fbf6ed] text-[#9d7c43]">

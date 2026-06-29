@@ -13,8 +13,9 @@ export async function findGuestTable(fullName: string) {
   }
 
   const { data, error } = await supabase
-    .from("guests")
-    .select("full_name, table_number")
+    .from("rsvps")
+    .select("full_name, table_number, attendance")
+    .eq("attendance", "SI")
     .ilike("full_name", `%${search}%`)
     .limit(1)
     .maybeSingle();
@@ -29,13 +30,22 @@ export async function findGuestTable(fullName: string) {
   if (!data) {
     return {
       success: false,
-      message: "No encontramos tu mesa. Verifica tu nombre o consulta con los novios.",
+      message:
+        "No encontramos una confirmación de asistencia con ese nombre. Verifica tu nombre o consulta con los novios.",
+    };
+  }
+
+  if (!data.table_number) {
+    return {
+      success: false,
+      message:
+        "Tu asistencia está confirmada, pero tu mesa aún no ha sido asignada.",
     };
   }
 
   return {
     success: true,
-    message: `${data.full_name}, estarás ubicado en ${data.table_number}.`,
+    message: `${data.full_name}, estarás ubicado(a) en ${data.table_number}.`,
   };
 }
 

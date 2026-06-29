@@ -18,12 +18,12 @@ export default function HeroSection({ guestName }: Props) {
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-black px-6 pb-16 pt-32 text-white">
-      <div className="absolute inset-0 bg-[url('/images/hero.jpg')] bg-cover bg-center opacity-55" />
-      <div className="absolute inset-0 bg-black/45" />
+      <div className="absolute inset-0 bg-[url('/images/hero.jpg')] bg-cover bg-[center_38%] opacity-65 md:bg-[center_42%]" />
+      <div className="absolute inset-0 bg-black/50" />
 
       <div className="relative z-10 mx-auto max-w-[520px]">
         <div className="mb-10 inline-flex rounded-full border border-white/25 bg-white/10 px-5 py-3 text-xs font-bold tracking-[0.35em] text-[#e8d7ad]">
-          WEDDING CELEBRATION
+          CELEBRAMOS NUESTRA BODA
         </div>
 
         <h1 className="font-serif text-6xl leading-[0.95]">
@@ -38,8 +38,8 @@ export default function HeroSection({ guestName }: Props) {
         )}
 
         <p className="mt-8 text-2xl leading-relaxed text-white/85">
-          Una invitación digital de boda con estética editorial, detalles dorados,
-          fotografía de alto impacto y una experiencia elegante para cada invitado.
+          Dos historias, un mismo destino. Dios unió nuestros caminos en Su perfecto tiempo y,
+          con gratitud en nuestros corazones, te invitamos a acompañarnos en esta nueva etapa de nuestras vidas.
         </p>
 
         <div className="mt-10 space-y-5">

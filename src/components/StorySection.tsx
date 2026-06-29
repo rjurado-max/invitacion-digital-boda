@@ -26,7 +26,7 @@ export default function StorySection() {
 
         <div className="mt-12 space-y-6">
           <div className="rounded-[1.8rem] border border-[#eadfce] bg-white p-8 text-center shadow-sm">
-            <p className="font-serif text-5xl font-bold">12</p>
+            <p className="font-serif text-5xl font-bold">2</p>
             <p className="mt-2 text-sm font-black tracking-[0.3em] text-[#9d7c43]">
               AÑOS DE HISTORIA
             </p>

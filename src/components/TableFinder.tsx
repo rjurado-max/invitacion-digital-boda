@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { findGuestTable } from "@/actions/guest-actions";
+import { EVENT_CONFIG } from "@/lib/constants";
 
 type Props = {
   defaultGuestName?: string;
@@ -50,22 +51,34 @@ export default function TableFinder({
   </div>
 )}
 
-        <div className="mt-12 flex flex-col gap-4 sm:flex-row">
-          <input
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-            placeholder="Escribe tu nombre completo..."
-            className="w-full rounded-[1.4rem] border border-[#eadfce] bg-[#fbf6ed] px-6 py-5 text-lg outline-none"
-          />
+        {EVENT_CONFIG.tableFinderEnabled ? (
+          <div className="mt-12 flex flex-col gap-4 sm:flex-row">
+            <input
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              placeholder="Escribe tu nombre completo..."
+              className="w-full rounded-[1.4rem] border border-[#eadfce] bg-[#fbf6ed] px-6 py-5 text-lg outline-none"
+            />
 
-          <button
-            onClick={searchTable}
-            disabled={isPending}
-            className="rounded-[1.4rem] bg-black px-8 py-5 text-sm font-black tracking-[0.25em] text-white disabled:opacity-50"
-          >
-            {isPending ? "BUSCANDO" : "BUSCAR"}
-          </button>
-        </div>
+            <button
+              onClick={searchTable}
+              disabled={isPending}
+              className="rounded-[1.4rem] bg-black px-8 py-5 text-sm font-black tracking-[0.25em] text-white disabled:opacity-50"
+            >
+              {isPending ? "BUSCANDO" : "BUSCAR"}
+            </button>
+          </div>
+        ) : (
+          <div className="mt-12 rounded-[1.8rem] border border-[#eadfce] bg-[#fbf6ed] p-8">
+            <p className="text-xl font-medium text-[#211b17]">
+              La distribución de mesas estará disponible próximamente.
+            </p>
+
+            <p className="mt-4 text-lg text-neutral-600">
+              Estamos organizando cada detalle para brindarte la mejor experiencia.
+            </p>
+          </div>
+        )}
 
         {result && (
           <div className="mt-8 rounded-[1.5rem] border border-[#eadfce] bg-[#fbf6ed] p-6 text-xl text-neutral-700">

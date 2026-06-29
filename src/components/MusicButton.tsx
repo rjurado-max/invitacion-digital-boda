@@ -9,12 +9,28 @@ export default function MusicButton() {
   const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
-    audioRef.current = new Audio(EVENT_CONFIG.music.src);
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.45;
+    const audio = new Audio();
+
+    audio.src = EVENT_CONFIG.music.src;
+    audio.loop = true;
+    audio.volume = 0.45;
+
+    audioRef.current = audio;
+
+    const startMusic = async () => {
+      try {
+        await audio.play();
+        setPlaying(true);
+      } catch {
+        setPlaying(false);
+      }
+    };
+
+    startMusic();
 
     return () => {
-      audioRef.current?.pause();
+      audio.pause();
+      audioRef.current = null;
     };
   }, []);
 
@@ -27,8 +43,12 @@ export default function MusicButton() {
       return;
     }
 
-    await audioRef.current.play();
-    setPlaying(true);
+    try {
+      await audioRef.current.play();
+      setPlaying(true);
+    } catch {
+      setPlaying(false);
+    }
   };
 
   return (

@@ -1,6 +1,11 @@
 "use server";
 
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 type AdminResponse<T> = {
   success: boolean;
@@ -114,5 +119,42 @@ export async function getAdminDashboardData(
         uploadedPhotos: safeEventPhotos.length,
       },
     },
+  };
+}
+
+export async function deleteRsvp(payload: {
+  adminCode: string;
+  rsvpId: string;
+}) {
+  if (!validateAdminCode(payload.adminCode)) {
+    return {
+      success: false,
+      message: "Código de administración incorrecto.",
+    };
+  }
+
+  const { data, error } = await supabase
+    .from("rsvps")
+    .delete()
+    .eq("id", payload.rsvpId)
+    .select("id");
+
+  if (error) {
+    return {
+      success: false,
+      message: "No se pudo eliminar la confirmación RSVP.",
+    };
+  }
+
+  if (!data || data.length === 0) {
+    return {
+      success: false,
+      message: "No se encontró la confirmación RSVP para eliminar.",
+    };
+  }
+
+  return {
+    success: true,
+    message: "Confirmación RSVP eliminada correctamente.",
   };
 }

@@ -1,40 +1,40 @@
-import { Crown, Flower2, List, Music, Sparkles, Wine } from "lucide-react";
+import { HeartHandshake, DoorOpen, Crown, UtensilsCrossed, Sparkles, Church } from "lucide-react";
 
 const agenda = [
   {
-    time: "5:30 PM",
-    title: "Ceremonia religiosa",
-    description: "Catedral Santa María del Lago",
-    icon: Flower2,
+    time: "2:00 a 3:00 PM",
+    title: "Recibimiento",
+    description: "Recepción de invitados y bienvenida",
+    icon: DoorOpen,
   },
   {
-    time: "6:45 PM",
-    title: "Cocktail de bienvenida",
-    description: "Recepción con música instrumental y bebidas",
-    icon: Wine,
+    time: "3:15 PM",
+    title: "Casamiento",
+    description: "Ceremonia de matrimonio",
+    icon: Church,
   },
   {
-    time: "7:30 PM",
+    time: "4:20 PM",
+    title: "Felicitaciones",
+    description: "Momento de abrazos, fotografías y refrigerio",
+    icon: HeartHandshake,
+  },
+  {
+    time: "5:20 PM",
     title: "Entrada de los novios",
-    description: "Grand Royal Garden Ballroom",
+    description: "Ingreso y Brindis",
     icon: Crown,
   },
   {
-    time: "8:15 PM",
-    title: "Cena formal",
-    description: "Servicio de tres tiempos",
-    icon: List,
+    time: "6:25 PM",
+    title: "Cena Formal",
+    description: "Compartiremos juntos de una deliciosa cena",
+    icon: UtensilsCrossed,
   },
   {
-    time: "9:30 PM",
-    title: "Primer baile",
-    description: "Un momento especial para abrir la pista",
-    icon: Music,
-  },
-  {
-    time: "10:00 PM",
-    title: "Celebración",
-    description: "Baile, brindis y recuerdos inolvidables",
+    time: "09:50 PM",
+    title: "Cierre y agradecimientos",
+    description: "Tiempo para despedirnos",
     icon: Sparkles,
   },
 ];

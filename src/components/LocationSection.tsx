@@ -15,53 +15,21 @@ export default function LocationSection() {
           </h2>
 
           <p className="mt-8 text-2xl leading-relaxed text-neutral-600">
-            Botones directos a mapas para facilitar la llegada de cada invitado.
+            Aquí celebraremos juntos este hermoso momento.
           </p>
         </div>
 
         <div className="mt-16 space-y-10">
           <article className="overflow-hidden rounded-[2rem] border border-[#eadfce] bg-[#fbf6ed] shadow-sm">
             <img
-              src="/images/ceremony.jpg"
-              alt="Lugar de ceremonia"
-              className="h-[330px] w-full object-cover"
-            />
-
-            <div className="p-8">
-              <span className="inline-flex rounded-full bg-white px-6 py-3 text-xs font-black tracking-[0.35em] text-[#9d7c43]">
-                CEREMONIA
-              </span>
-
-              <h3 className="mt-8 font-serif text-5xl leading-tight text-[#211b17]">
-                {EVENT_CONFIG.ceremony.title}
-              </h3>
-
-              <p className="mt-5 text-2xl text-neutral-600">
-                {EVENT_CONFIG.ceremony.address}
-              </p>
-
-              <a
-                href={EVENT_CONFIG.ceremony.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-8 inline-flex items-center justify-center gap-3 rounded-full bg-black px-8 py-5 text-sm font-black tracking-[0.3em] text-white shadow-xl"
-              >
-                <MapPin size={22} />
-                MAPA CEREMONIA
-              </a>
-            </div>
-          </article>
-
-          <article className="overflow-hidden rounded-[2rem] border border-[#eadfce] bg-[#fbf6ed] shadow-sm">
-            <img
               src="/images/reception.jpg"
-              alt="Lugar de recepción"
+              alt="Ceremonia y recepción"
               className="h-[330px] w-full object-cover"
             />
 
             <div className="p-8">
               <span className="inline-flex rounded-full bg-white px-6 py-3 text-xs font-black tracking-[0.35em] text-[#9d7c43]">
-                RECEPCIÓN
+                CELEBRACIÓN
               </span>
 
               <h3 className="mt-8 font-serif text-5xl leading-tight text-[#211b17]">
@@ -79,7 +47,7 @@ export default function LocationSection() {
                 className="mt-8 inline-flex items-center justify-center gap-3 rounded-full bg-black px-8 py-5 text-sm font-black tracking-[0.3em] text-white shadow-xl"
               >
                 <MapPin size={22} />
-                MAPA RECEPCIÓN
+                VER MAPA
               </a>
             </div>
           </article>

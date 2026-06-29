@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { getAdminDashboardData } from "@/actions/admin-actions";
+import { deleteRsvp, getAdminDashboardData } from "@/actions/admin-actions";
 import { deletePhoto } from "@/actions/admin-photo-actions";
 import { deleteGiftSelection } from "@/actions/admin-gift-actions";
+import AdminGiftsManager from "@/components/AdminGiftsManager";
+import AdminTablesManager from "@/components/AdminTablesManager";
 
 type DashboardData = {
   rsvps: any[];
@@ -25,10 +27,19 @@ export default function AdminDashboard() {
   const [message, setMessage] = useState("");
   const [data, setData] = useState<DashboardData | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [view, setView] = useState<"dashboard" | "gifts" | "tables">("dashboard");
 
   const loadDashboard = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    startTransition(async () => {
+      const response = await getAdminDashboardData(adminCode);
+      setMessage(response.message);
+      setData(response.data);
+    });
+  };
+
+  const refreshDashboard = () => {
     startTransition(async () => {
       const response = await getAdminDashboardData(adminCode);
       setMessage(response.message);
@@ -89,14 +100,20 @@ export default function AdminDashboard() {
 
     exportCsv(
       "regalos-reservados.csv",
-      ["Invitado", "Celular", "Mensaje", "Fecha"],
+      ["Invitado", "Regalo", "Mensaje", "Fecha"],
       data.giftSelections.map((item) => [
         item.guest_name,
-        item.phone || "",
+        getGiftName(item.gift_id),
         item.message || "",
         new Date(item.created_at).toLocaleString(),
       ])
     );
+  };
+
+  const getGiftName = (giftId: string) => {
+    const gift = data?.gifts.find((item) => item.id === giftId);
+
+    return gift?.name ?? "Regalo no encontrado";
   };
 
   const exportPhotos = () => {
@@ -153,7 +170,7 @@ export default function AdminDashboard() {
           </form>
         )}
 
-        {data && (
+        {data && view === "dashboard" && (
           <section className="mt-10 space-y-10">
             <div className="grid gap-5 md:grid-cols-5">
               <SummaryCard title="Confirmados" value={data.totals.confirmedGuests} />
@@ -184,20 +201,97 @@ export default function AdminDashboard() {
               >
                 EXPORTAR FOTOS
               </button>
+
+              <button
+                onClick={() => setView("gifts")}
+                className="rounded-full bg-[#9d7c43] px-6 py-4 text-sm font-black tracking-[0.2em] text-white"
+              >
+                ADMINISTRAR REGALOS
+              </button>
+
+              <button
+                onClick={() => setView("tables")}
+                className="rounded-full bg-[#9d7c43] px-6 py-4 text-sm font-black tracking-[0.2em] text-white"
+              >
+                ADMINISTRAR MESAS
+              </button>
             </div>
 
-            <AdminTable
-              title="Confirmaciones RSVP"
-              headers={["Nombre", "Celular", "Asistencia", "Acompañantes", "Total", "Mensaje"]}
-              rows={data.rsvps.map((item) => [
-                item.full_name,
-                item.phone || "-",
-                item.attendance,
-                String(item.companions ?? 0),
-                String(item.total_attendees ?? 0),
-                item.message || "-",
-              ])}
-            />
+            <div className="rounded-[2rem] border border-[#eadfce] bg-white p-6 shadow-sm">
+              <h2 className="font-serif text-3xl">Confirmaciones RSVP</h2>
+
+              <div className="mt-6 overflow-x-auto">
+                <table className="w-full min-w-[900px] border-collapse text-left">
+                  <thead>
+                    <tr className="border-b border-[#eadfce]">
+                      {[
+                        "Nombre",
+                        "Celular",
+                        "Asistencia",
+                        "Acompañantes",
+                        "Total",
+                        "Mensaje",
+                        "Acción",
+                      ].map((header) => (
+                        <th
+                          key={header}
+                          className="px-4 py-3 text-sm font-black tracking-[0.15em] text-[#9d7c43]"
+                        >
+                          {header}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {data.rsvps.length === 0 ? (
+                      <tr>
+                        <td colSpan={7} className="px-4 py-6 text-center text-neutral-500">
+                          Sin registros.
+                        </td>
+                      </tr>
+                    ) : (
+                      data.rsvps.map((item) => (
+                        <tr key={item.id} className="border-b border-[#f0e7d8]">
+                          <td className="px-4 py-4">{item.full_name}</td>
+                          <td className="px-4 py-4">{item.phone || "-"}</td>
+                          <td className="px-4 py-4">{item.attendance}</td>
+                          <td className="px-4 py-4">{String(item.companions ?? 0)}</td>
+                          <td className="px-4 py-4">{String(item.total_attendees ?? 0)}</td>
+                          <td className="px-4 py-4">{item.message || "-"}</td>
+                          <td className="px-4 py-4">
+                            <button
+                              type="button"
+                              onClick={async () => {
+                                const confirmed = confirm(
+                                  `¿Deseas eliminar la confirmación RSVP de "${item.full_name}"?`
+                                );
+
+                                if (!confirmed) return;
+
+                                const response = await deleteRsvp({
+                                  adminCode,
+                                  rsvpId: item.id,
+                                });
+
+                                setMessage(response.message);
+
+                                if (response.success) {
+                                  refreshDashboard();
+                                }
+                              }}
+                              className="rounded-full bg-red-600 px-4 py-2 text-xs font-bold text-white"
+                            >
+                              ELIMINAR
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
             <div className="rounded-[2rem] border border-[#eadfce] bg-white p-6 shadow-sm">
               <h2 className="font-serif text-3xl">Regalos reservados</h2>
@@ -210,7 +304,7 @@ export default function AdminDashboard() {
                         Invitado
                       </th>
                       <th className="px-4 py-3 text-sm font-black tracking-[0.15em] text-[#9d7c43]">
-                        Celular
+                        Regalo
                       </th>
                       <th className="px-4 py-3 text-sm font-black tracking-[0.15em] text-[#9d7c43]">
                         Mensaje
@@ -235,7 +329,9 @@ export default function AdminDashboard() {
                       data.giftSelections.map((item) => (
                         <tr key={item.id} className="border-b border-[#f0e7d8]">
                           <td className="px-4 py-4">{item.guest_name}</td>
-                          <td className="px-4 py-4">{item.phone || "-"}</td>
+                          <td className="px-4 py-4 font-semibold text-[#211b17]">
+                            {getGiftName(item.gift_id)}
+                          </td>
                           <td className="px-4 py-4">{item.message || "-"}</td>
                           <td className="px-4 py-4">
                             {new Date(item.created_at).toLocaleString()}
@@ -246,8 +342,11 @@ export default function AdminDashboard() {
                                 const confirmed = confirm("¿Liberar este regalo reservado?");
                                 if (!confirmed) return;
 
-                                await deleteGiftSelection(item.id);
-                                window.location.reload();
+                                const response = await deleteGiftSelection(item.id);
+
+                                if (response.success) {
+                                  refreshDashboard();
+                                }
                               }}
                               className="rounded-full bg-red-600 px-4 py-2 text-xs font-bold text-white"
                             >
@@ -296,9 +395,11 @@ export default function AdminDashboard() {
 
                         if (!confirmed) return;
 
-                        await deletePhoto(photo.photo_url);
+                        const response = await deletePhoto(photo.photo_url);
 
-                        window.location.reload();
+                        if (response.success) {
+                          refreshDashboard();
+                        }
                       }}
                     >
                       ELIMINAR
@@ -308,6 +409,32 @@ export default function AdminDashboard() {
                 </div>
               )}
             </div>
+          </section>
+        )}
+
+        {data && view === "gifts" && (
+          <section className="mt-10">
+            <button
+              onClick={() => setView("dashboard")}
+              className="mb-8 rounded-full border border-[#eadfce] bg-white px-6 py-3 text-sm font-black tracking-[0.2em] text-[#9d7c43]"
+            >
+              ← VOLVER AL PANEL
+            </button>
+
+            <AdminGiftsManager initialAdminCode={adminCode} />
+          </section>
+        )}
+
+        {data && view === "tables" && (
+          <section className="mt-10">
+            <button
+              onClick={() => setView("dashboard")}
+              className="mb-8 rounded-full border border-[#eadfce] bg-white px-6 py-3 text-sm font-black tracking-[0.2em] text-[#9d7c43]"
+            >
+              ← VOLVER AL PANEL
+            </button>
+
+            <AdminTablesManager initialAdminCode={adminCode} />
           </section>
         )}
       </div>

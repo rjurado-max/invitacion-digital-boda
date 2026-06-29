@@ -44,29 +44,63 @@ export async function submitRsvp(payload: RsvpPayload) {
     guest = data;
   }
 
-  if (guest) {
-    const { data: existingRsvp } = await supabase
-      .from("rsvps")
-      .select("id")
-      .eq("guest_id", guest.id)
-      .maybeSingle();
-
-    if (existingRsvp) {
-      return {
-        success: false,
-        message: "Ya registraste tu confirmación anteriormente.",
-      };
-    }
-
-    if (companions > guest.max_companions) {
-      return {
-        success: false,
-        message: `Solo puedes registrar hasta ${guest.max_companions} acompañante(s).`,
-      };
-    }
+  if (guest && companions > guest.max_companions) {
+    return {
+      success: false,
+      message: `Solo puedes registrar hasta ${guest.max_companions} acompañante(s).`,
+    };
   }
 
   const totalAttendees = payload.attendance === "SI" ? 1 + companions : 0;
+
+  let existingRsvp = null;
+
+  if (guest) {
+    const { data } = await supabase
+      .from("rsvps")
+      .select("id, table_number")
+      .eq("guest_id", guest.id)
+      .maybeSingle();
+
+    existingRsvp = data;
+  } else if (phone) {
+    const { data } = await supabase
+      .from("rsvps")
+      .select("id, table_number")
+      .eq("phone", phone)
+      .maybeSingle();
+
+    existingRsvp = data;
+  }
+
+  if (existingRsvp) {
+    const { error } = await supabase
+      .from("rsvps")
+      .update({
+        full_name: guest?.full_name ?? fullName,
+        phone,
+        attendance: payload.attendance,
+        companions,
+        message: payload.message.trim(),
+        total_attendees: totalAttendees,
+      })
+      .eq("id", existingRsvp.id);
+
+    if (error) {
+      return {
+        success: false,
+        message: "No se pudo actualizar tu confirmación. Inténtalo nuevamente.",
+      };
+    }
+
+    return {
+      success: true,
+      message:
+        payload.attendance === "SI"
+          ? "Tu confirmación fue actualizada correctamente."
+          : "Actualizamos que no podrás asistir.",
+    };
+  }
 
   const { error } = await supabase.from("rsvps").insert({
     guest_id: guest?.id ?? null,

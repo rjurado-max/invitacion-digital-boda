@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import { CheckCircle2, Heart } from "lucide-react";
+import { CheckCircle2, ChevronDown, Heart } from "lucide-react";
 import { submitRsvp } from "@/actions/rsvp-actions";
 
 type Guest = {
@@ -29,6 +29,8 @@ export default function RsvpSection({ guest = null }: Props) {
   });
 
   const [result, setResult] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [showAttendanceOptions, setShowAttendanceOptions] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -54,6 +56,11 @@ export default function RsvpSection({ guest = null }: Props) {
 
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!/^\d{9}$/.test(form.phone)) {
+      setPhoneError("Ingresa un número celular válido de 9 dígitos.");
+      return;
+    }
 
     startTransition(async () => {
       const response = await submitRsvp({
@@ -124,37 +131,83 @@ export default function RsvpSection({ guest = null }: Props) {
           <input
             name="phone"
             value={form.phone}
-            onChange={updateField}
+            onChange={(event) => {
+              const value = event.target.value.replace(/\D/g, "");
+
+              if (value.length <= 9) {
+                setForm({
+                  ...form,
+                  phone: value,
+                });
+
+                setPhoneError("");
+              }
+            }}
             placeholder="Celular"
-            className="w-full rounded-2xl bg-white px-5 py-4 text-lg text-black outline-none"
+            inputMode="numeric"
+            maxLength={9}
+            className={`w-full rounded-2xl bg-white px-5 py-4 text-lg text-black outline-none transition ${
+              phoneError
+                ? "border-2 border-red-500"
+                : "border-2 border-transparent"
+            }`}
           />
 
-          <select
-            name="attendance"
-            value={form.attendance}
-            onChange={updateField}
-            className="w-full rounded-2xl bg-white px-5 py-4 text-lg text-black outline-none"
-          >
-            <option value="SI">Sí asistiré</option>
-            <option value="NO">No podré asistir</option>
-          </select>
-
-          <input
-            name="companions"
-            value={form.companions}
-            onChange={updateField}
-            type="number"
-            min="0"
-            max={guest?.max_companions ?? undefined}
-            placeholder="Cantidad de acompañantes"
-            className="w-full rounded-2xl bg-white px-5 py-4 text-lg text-black outline-none"
-          />
-
-          {guest && (
-            <p className="text-center text-sm text-white/70">
-              Puedes registrar hasta {guest.max_companions} acompañante(s).
+          {phoneError && (
+            <p className="px-2 text-sm font-medium text-red-400">
+              {phoneError}
             </p>
           )}
+
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setShowAttendanceOptions(!showAttendanceOptions)}
+              className="flex w-full items-center justify-between rounded-2xl bg-white px-5 py-4 text-left text-lg text-black outline-none"
+            >
+              <span>{form.attendance === "SI" ? "Sí asistiré" : "No podré asistir"}</span>
+              <ChevronDown
+                size={22}
+                className={`text-[#9d7c43] transition ${
+                  showAttendanceOptions ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            {showAttendanceOptions && (
+              <div className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-2xl border border-white/20 bg-white shadow-xl">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setForm({ ...form, attendance: "SI" });
+                    setShowAttendanceOptions(false);
+                  }}
+                  className={`w-full px-5 py-4 text-left text-lg transition ${
+                    form.attendance === "SI"
+                      ? "bg-[#fbf6ed] font-semibold text-[#9d7c43]"
+                      : "text-black hover:bg-[#fbf6ed]"
+                  }`}
+                >
+                  Sí asistiré
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setForm({ ...form, attendance: "NO" });
+                    setShowAttendanceOptions(false);
+                  }}
+                  className={`w-full px-5 py-4 text-left text-lg transition ${
+                    form.attendance === "NO"
+                      ? "bg-[#fbf6ed] font-semibold text-[#9d7c43]"
+                      : "text-black hover:bg-[#fbf6ed]"
+                  }`}
+                >
+                  No podré asistir
+                </button>
+              </div>
+            )}
+          </div>
 
           <textarea
             name="message"
