@@ -1,3 +1,5 @@
+"use client";
+
 import { Camera, Check, CheckCheck, CheckCircle, CheckCircle2Icon, CheckLineIcon, CheckSquare, CheckSquare2, Clock, Diamond, Gift, Heart, ParkingCircleIcon, PhoneIncomingIcon, PhoneMissed, PhoneOff, PhoneOffIcon } from "lucide-react";
 import { EVENT_CONFIG } from "@/lib/constants";
 
@@ -39,7 +41,11 @@ export default function DetailsSection({ onOpenRsvp }: Props) {
 
             <button
               type="button"
-              onClick={onOpenRsvp}
+              onClick={() => {
+                if (onOpenRsvp) {
+                  onOpenRsvp();
+                }
+              }}
               className="mt-7 inline-block text-sm font-black tracking-[0.35em] text-[#9d7c43] underline underline-offset-8"
             >
               CONFIRMAR

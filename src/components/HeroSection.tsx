@@ -42,7 +42,11 @@ export default function HeroSection({ guestName, onOpenRsvp }: Props) {
         <div className="mt-10 space-y-5">
           <button
             type="button"
-            onClick={onOpenRsvp}
+            onClick={() => {
+              if (onOpenRsvp) {
+                onOpenRsvp();
+              }
+            }}
             className="flex w-full items-center justify-center gap-3 rounded-full bg-white px-6 py-5 text-sm font-black tracking-[0.35em] text-black"
           >
             <Heart size={22} />
