@@ -37,13 +37,15 @@ type Props = {
 export default function InvitationClient({ token, guest }: Props) {
   const [opened, setOpened] = useState(false);
   const [validatedGuest, setValidatedGuest] = useState<Guest>(null);
-  const [showRsvpModal, setShowRsvpModal] = useState(false);
 
   if (!guest) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#f7f1e8] px-6 text-center">
         <div className="max-w-md rounded-[2rem] bg-white p-8 shadow-sm">
-          <h1 className="font-serif text-4xl">Invitación no encontrada</h1>
+          <h1 className="font-serif text-4xl">
+            Invitación no encontrada
+          </h1>
+
           <p className="mt-4 text-neutral-600">
             Verifica que el enlace sea correcto o consulta con los novios.
           </p>
@@ -53,49 +55,41 @@ export default function InvitationClient({ token, guest }: Props) {
   }
 
   if (!validatedGuest) {
-    return <AccessCodeForm token={token} onSuccess={setValidatedGuest} />;
+    return (
+      <AccessCodeForm
+        token={token}
+        onSuccess={setValidatedGuest}
+      />
+    );
   }
 
   return (
     <main>
-      {!opened && <OpeningEnvelope onOpen={() => setOpened(true)} />}
+      {!opened && (
+        <OpeningEnvelope onOpen={() => setOpened(true)} />
+      )}
 
       {opened && (
         <>
           <FloatingHeader />
           <MusicButton />
-
-          <HeroSection
-            guestName={validatedGuest.full_name}
-            onOpenRsvp={() => setShowRsvpModal(true)}
-          />
-
+          <HeroSection guestName={validatedGuest.full_name} />
           <EventSummary />
           <Countdown />
           <StorySection />
-
-          <DetailsSection onOpenRsvp={() => setShowRsvpModal(true)} />
-
+          <DetailsSection />
           <AgendaSection />
           <LocationSection />
           <GiftsSection />
-          <PhotoUploadSection defaultGuestName={validatedGuest.full_name} />
-
+          <PhotoUploadSection
+            defaultGuestName={validatedGuest.full_name}
+          />
           <TableFinder
             defaultGuestName={validatedGuest.full_name}
             tableNumber={validatedGuest.table_number}
           />
-
           <RsvpSection guest={validatedGuest} />
           <Footer />
-
-          {showRsvpModal && (
-            <RsvpSection
-              guest={validatedGuest}
-              isModal
-              onClose={() => setShowRsvpModal(false)}
-            />
-          )}
         </>
       )}
     </main>

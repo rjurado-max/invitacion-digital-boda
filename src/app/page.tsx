@@ -22,7 +22,9 @@ export default function Home() {
 
   return (
     <main>
-      {!opened && <OpeningEnvelope onOpen={() => setOpened(true)} />}
+      {!opened && (
+        <OpeningEnvelope onOpen={() => setOpened(true)} />
+      )}
 
       {opened && (
         <>

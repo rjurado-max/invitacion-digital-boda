@@ -5,10 +5,13 @@ import { EVENT_CONFIG } from "@/lib/constants";
 
 type Props = {
   guestName?: string;
-  onOpenRsvp?: () => void;
 };
 
-export default function HeroSection({ guestName, onOpenRsvp }: Props) {
+export default function HeroSection({ guestName }: Props) {
+  const goToRsvp = () => {
+    document.getElementById("rsvp")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const goToLocation = () => {
     document.getElementById("ubicacion")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -16,6 +19,7 @@ export default function HeroSection({ guestName, onOpenRsvp }: Props) {
   return (
     <section className="relative min-h-screen overflow-hidden bg-black px-6 pb-16 pt-32 text-white">
       <div className="absolute inset-0 bg-[url('/images/hero.jpg')] bg-cover bg-[center_38%] opacity-65 md:bg-[center_42%]" />
+
       <div className="absolute inset-0 bg-black/50" />
 
       <div className="relative z-10 mx-auto max-w-[520px]">
@@ -35,18 +39,12 @@ export default function HeroSection({ guestName, onOpenRsvp }: Props) {
         )}
 
         <p className="mt-8 text-2xl leading-relaxed text-white/85">
-          Dos historias, un mismo destino. Dios unió nuestros caminos en Su perfecto tiempo y,
-          con gratitud en nuestros corazones, te invitamos a acompañarnos en esta nueva etapa de nuestras vidas.
+          Dos historias, un mismo destino. Dios unió nuestros caminos en Su perfecto tiempo y, con gratitud en nuestros corazones, te invitamos a acompañarnos en esta nueva etapa de nuestras vidas.
         </p>
 
         <div className="mt-10 space-y-5">
           <button
-            type="button"
-            onClick={() => {
-              if (onOpenRsvp) {
-                onOpenRsvp();
-              }
-            }}
+            onClick={goToRsvp}
             className="flex w-full items-center justify-center gap-3 rounded-full bg-white px-6 py-5 text-sm font-black tracking-[0.35em] text-black"
           >
             <Heart size={22} />
@@ -54,7 +52,6 @@ export default function HeroSection({ guestName, onOpenRsvp }: Props) {
           </button>
 
           <button
-            type="button"
             onClick={goToLocation}
             className="flex w-[68%] items-center justify-center gap-3 rounded-full bg-white/35 px-6 py-5 text-sm font-black tracking-[0.25em] text-white"
           >
