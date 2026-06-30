@@ -37,6 +37,7 @@ type Props = {
 export default function InvitationClient({ token, guest }: Props) {
   const [opened, setOpened] = useState(false);
   const [validatedGuest, setValidatedGuest] = useState<Guest>(null);
+  const [showRsvpModal, setShowRsvpModal] = useState(false);
 
   if (!guest) {
     return (
@@ -63,21 +64,38 @@ export default function InvitationClient({ token, guest }: Props) {
         <>
           <FloatingHeader />
           <MusicButton />
-          <HeroSection guestName={validatedGuest.full_name} />
+
+          <HeroSection
+            guestName={validatedGuest.full_name}
+            onOpenRsvp={() => setShowRsvpModal(true)}
+          />
+
           <EventSummary />
           <Countdown />
           <StorySection />
-          <DetailsSection />
+
+          <DetailsSection onOpenRsvp={() => setShowRsvpModal(true)} />
+
           <AgendaSection />
           <LocationSection />
           <GiftsSection />
           <PhotoUploadSection defaultGuestName={validatedGuest.full_name} />
+
           <TableFinder
             defaultGuestName={validatedGuest.full_name}
             tableNumber={validatedGuest.table_number}
           />
+
           <RsvpSection guest={validatedGuest} />
           <Footer />
+
+          {showRsvpModal && (
+            <RsvpSection
+              guest={validatedGuest}
+              isModal
+              onClose={() => setShowRsvpModal(false)}
+            />
+          )}
         </>
       )}
     </main>

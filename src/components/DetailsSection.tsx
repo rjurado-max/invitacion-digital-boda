@@ -1,7 +1,11 @@
 import { Camera, Check, CheckCheck, CheckCircle, CheckCircle2Icon, CheckLineIcon, CheckSquare, CheckSquare2, Clock, Diamond, Gift, Heart, ParkingCircleIcon, PhoneIncomingIcon, PhoneMissed, PhoneOff, PhoneOffIcon } from "lucide-react";
 import { EVENT_CONFIG } from "@/lib/constants";
 
-export default function DetailsSection() {
+type Props = {
+  onOpenRsvp?: () => void;
+};
+
+export default function DetailsSection({ onOpenRsvp }: Props) {
   return (
     <section className="bg-[#fbfaf8] px-6 py-24">
       <div className="mx-auto max-w-[520px]">
@@ -33,12 +37,13 @@ export default function DetailsSection() {
               Agradecemos confirmar tu asistencia antes del 15 de Julio.
             </p>
 
-            <a
-              href="#rsvp"
+            <button
+              type="button"
+              onClick={onOpenRsvp}
               className="mt-7 inline-block text-sm font-black tracking-[0.35em] text-[#9d7c43] underline underline-offset-8"
             >
               CONFIRMAR
-            </a>
+            </button>
           </article>
 
           <article className="rounded-[2rem] border border-[#eadfce] bg-white p-8 shadow-sm">
