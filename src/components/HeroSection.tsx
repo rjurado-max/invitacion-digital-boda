@@ -5,10 +5,16 @@ import { EVENT_CONFIG } from "@/lib/constants";
 
 type Props = {
   guestName?: string;
+  onOpenRsvp?: () => void;
 };
 
-export default function HeroSection({ guestName }: Props) {
+export default function HeroSection({ guestName, onOpenRsvp }: Props) {
   const goToRsvp = () => {
+    if (onOpenRsvp) {
+      onOpenRsvp();
+      return;
+    }
+
     document.getElementById("rsvp")?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -44,6 +50,7 @@ export default function HeroSection({ guestName }: Props) {
 
         <div className="mt-10 space-y-5">
           <button
+            type="button"
             onClick={goToRsvp}
             className="flex w-full items-center justify-center gap-3 rounded-full bg-white px-6 py-5 text-sm font-black tracking-[0.35em] text-black"
           >
@@ -52,6 +59,7 @@ export default function HeroSection({ guestName }: Props) {
           </button>
 
           <button
+            type="button"
             onClick={goToLocation}
             className="flex w-[68%] items-center justify-center gap-3 rounded-full bg-white/35 px-6 py-5 text-sm font-black tracking-[0.25em] text-white"
           >

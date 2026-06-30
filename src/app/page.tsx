@@ -15,10 +15,12 @@ import GiftsSection from "@/components/GiftsSection";
 import PhotoUploadSection from "@/components/PhotoUploadSection";
 import TableFinder from "@/components/TableFinder";
 import RsvpSection from "@/components/RsvpSection";
+import RsvpModal from "@/components/RsvpModal";
 import Footer from "@/components/Footer";
 
 export default function Home() {
   const [opened, setOpened] = useState(false);
+  const [showRsvpModal, setShowRsvpModal] = useState(false);
 
   return (
     <main>
@@ -30,11 +32,13 @@ export default function Home() {
         <>
           <FloatingHeader />
           <MusicButton />
-          <HeroSection />
+
+          <HeroSection onOpenRsvp={() => setShowRsvpModal(true)} />
+
           <EventSummary />
           <Countdown />
           <StorySection />
-          <DetailsSection />
+          <DetailsSection onOpenRsvp={() => setShowRsvpModal(true)} />
           <AgendaSection />
           <LocationSection />
           <GiftsSection />
@@ -42,6 +46,10 @@ export default function Home() {
           <TableFinder />
           <RsvpSection />
           <Footer />
+
+          {showRsvpModal && (
+            <RsvpModal onClose={() => setShowRsvpModal(false)} />
+          )}
         </>
       )}
     </main>
