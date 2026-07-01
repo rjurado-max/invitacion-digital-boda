@@ -29,8 +29,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/images/og-image.jpg",
-        width: 1071,
-        height: 1428,
+        width: 1200,
+        height: 630,
         alt: "Frances & Roger - Invitación de boda",
       },
     ],
