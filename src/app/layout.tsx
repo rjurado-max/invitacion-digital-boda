@@ -13,10 +13,36 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Invitación de Boda",
-  description: "Invitación digital de boda",
+  metadataBase: new URL("https://invitacion-digital-boda-gamma.vercel.app"),
+  title: "Frances & Roger — Nuestra Boda",
+  description:
+    "Acompáñanos en el inicio de nuestra nueva historia. Confirma tu asistencia y conoce todos los detalles de este día tan especial.",
   other: {
     google: "notranslate",
+  },
+  openGraph: {
+    title: "Frances & Roger — Nuestra Boda",
+    description:
+      "Acompáñanos en el inicio de nuestra nueva historia. Confirma tu asistencia y conoce todos los detalles de este día tan especial.",
+    url: "https://invitacion-digital-boda-gamma.vercel.app",
+    siteName: "Frances & Roger",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1071,
+        height: 1428,
+        alt: "Frances & Roger - Invitación de boda",
+      },
+    ],
+    locale: "es_PE",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Frances & Roger — Nuestra Boda",
+    description:
+      "Acompáñanos en el inicio de nuestra nueva historia. Confirma tu asistencia y conoce todos los detalles de este día tan especial.",
+    images: ["/images/og-image.jpg"],
   },
 };
 
