@@ -52,10 +52,10 @@ export default function HeroSection({ guestName, onOpenRsvp }: Props) {
           <button
             type="button"
             onClick={goToRsvp}
-            className="flex w-full items-center justify-center gap-3 rounded-full bg-white px-6 py-5 text-sm font-black tracking-[0.35em] text-black"
+            className="flex h-[64px] w-full items-center justify-center gap-3 rounded-full bg-white px-5 text-[11px] font-black tracking-[0.22em] text-black sm:text-sm sm:tracking-[0.35em]"
           >
-            <Heart size={22} />
-            CONFIRMAR ASISTENCIA
+            <Heart size={22} className="shrink-0" />
+            <span className="whitespace-nowrap">CONFIRMAR ASISTENCIA</span>
           </button>
 
           <button
