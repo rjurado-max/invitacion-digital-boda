@@ -19,6 +19,8 @@ type Props = {
   guest?: Guest | null;
 };
 
+const MAX_FULL_NAME_LENGTH = 40;
+
 export default function RsvpSection({ guest = null }: Props) {
   const [form, setForm] = useState({
     fullName: guest?.full_name ?? "",
@@ -75,6 +77,13 @@ export default function RsvpSection({ guest = null }: Props) {
 
     if (nameParts.length < 2) {
       setFullNameError("Ingresa al menos un nombre y un apellido.");
+      return;
+    }
+
+    if (cleanFullName.length > MAX_FULL_NAME_LENGTH) {
+      setFullNameError(
+        `El nombre no debe superar los ${MAX_FULL_NAME_LENGTH} caracteres.`
+      );
       return;
     }
 
@@ -143,10 +152,9 @@ export default function RsvpSection({ guest = null }: Props) {
             name="fullName"
             value={form.fullName}
             onChange={(event) => {
-              const value = event.target.value.replace(
-                /[^A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]/g,
-                ""
-              );
+              const value = event.target.value
+                .replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]/g, "")
+                .slice(0, MAX_FULL_NAME_LENGTH);
 
               setForm({
                 ...form,
@@ -156,6 +164,7 @@ export default function RsvpSection({ guest = null }: Props) {
               setFullNameError("");
             }}
             required
+            maxLength={MAX_FULL_NAME_LENGTH}
             readOnly={Boolean(guest)}
             placeholder="Nombre completo"
             className={`w-full rounded-2xl bg-white px-5 py-4 text-lg text-black outline-none transition read-only:bg-white/90 ${

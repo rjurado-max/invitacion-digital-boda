@@ -16,6 +16,8 @@ type RsvpPayload = {
   message: string;
 };
 
+const MAX_FULL_NAME_LENGTH = 40;
+
 function normalizeText(value: string) {
   return value.trim().replace(/\s+/g, " ").toLowerCase();
 }
@@ -46,6 +48,13 @@ export async function submitRsvp(payload: RsvpPayload) {
     return {
       success: false,
       message: "Debes ingresar al menos un nombre y un apellido.",
+    };
+  }
+
+  if (cleanFullName.length > MAX_FULL_NAME_LENGTH) {
+    return {
+      success: false,
+      message: `El nombre no debe superar los ${MAX_FULL_NAME_LENGTH} caracteres.`,
     };
   }
 
