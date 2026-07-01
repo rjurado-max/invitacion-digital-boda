@@ -11,6 +11,10 @@ type RsvpPayload = {
   message: string;
 };
 
+function normalizeText(value: string) {
+  return value.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
 export async function submitRsvp(payload: RsvpPayload) {
   const fullName = payload.fullName.trim();
   const phone = payload.phone.trim();
@@ -75,60 +79,41 @@ export async function submitRsvp(payload: RsvpPayload) {
     };
   }
 
-  const totalAttendees = payload.attendance === "SI" ? 1 + companions : 0;
+  const nameToSave = guest?.full_name ?? cleanFullName;
+  const normalizedNameToSave = normalizeText(nameToSave);
 
-  let existingRsvp = null;
+  const { data: existingRsvps, error: existingError } = await supabase
+    .from("rsvps")
+    .select("id, guest_id, full_name, phone");
 
-  if (guest) {
-    const { data } = await supabase
-      .from("rsvps")
-      .select("id, table_number")
-      .eq("guest_id", guest.id)
-      .maybeSingle();
-
-    existingRsvp = data;
-  } else if (phone) {
-    const { data } = await supabase
-      .from("rsvps")
-      .select("id, table_number")
-      .eq("phone", phone)
-      .maybeSingle();
-
-    existingRsvp = data;
-  }
-
-  if (existingRsvp) {
-    const { error } = await supabase
-      .from("rsvps")
-      .update({
-        full_name: guest?.full_name ?? cleanFullName,
-        phone,
-        attendance: payload.attendance,
-        companions,
-        message: payload.message.trim(),
-        total_attendees: totalAttendees,
-      })
-      .eq("id", existingRsvp.id);
-
-    if (error) {
-      return {
-        success: false,
-        message: "No se pudo actualizar tu confirmación. Inténtalo nuevamente.",
-      };
-    }
-
+  if (existingError) {
     return {
-      success: true,
-      message:
-        payload.attendance === "SI"
-          ? "Tu confirmación fue actualizada correctamente."
-          : "Actualizamos que no podrás asistir.",
+      success: false,
+      message: "No se pudo validar si ya existe una confirmación previa.",
     };
   }
 
+  const duplicateRsvp = (existingRsvps ?? []).find((rsvp) => {
+    const sameGuest = guest?.id && rsvp.guest_id === guest.id;
+    const samePhone = rsvp.phone === phone;
+    const sameName = normalizeText(rsvp.full_name ?? "") === normalizedNameToSave;
+
+    return sameGuest || samePhone || sameName;
+  });
+
+  if (duplicateRsvp) {
+    return {
+      success: false,
+      message:
+        "Ya existe una confirmación registrada con este nombre o número de celular.",
+    };
+  }
+
+  const totalAttendees = payload.attendance === "SI" ? 1 + companions : 0;
+
   const { error } = await supabase.from("rsvps").insert({
     guest_id: guest?.id ?? null,
-    full_name: guest?.full_name ?? cleanFullName,
+    full_name: nameToSave,
     phone,
     attendance: payload.attendance,
     companions,
