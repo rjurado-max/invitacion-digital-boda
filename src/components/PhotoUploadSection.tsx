@@ -15,6 +15,44 @@ type Props = {
   defaultGuestName?: string;
 };
 
+const MAX_ORIGINAL_SIZE_MB = 40;
+const MAX_IMAGE_WIDTH = 1800;
+const IMAGE_QUALITY = 0.82;
+
+async function compressImage(file: File): Promise<File> {
+  const imageBitmap = await createImageBitmap(file);
+
+  const scale = Math.min(1, MAX_IMAGE_WIDTH / imageBitmap.width);
+  const width = Math.round(imageBitmap.width * scale);
+  const height = Math.round(imageBitmap.height * scale);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+
+  const context = canvas.getContext("2d");
+
+  if (!context) {
+    throw new Error("No se pudo procesar la imagen.");
+  }
+
+  context.drawImage(imageBitmap, 0, 0, width, height);
+
+  const blob = await new Promise<Blob | null>((resolve) => {
+    canvas.toBlob(resolve, "image/jpeg", IMAGE_QUALITY);
+  });
+
+  if (!blob) {
+    throw new Error("No se pudo comprimir la imagen.");
+  }
+
+  return new File(
+    [blob],
+    `${crypto.randomUUID()}.jpg`,
+    { type: "image/jpeg" }
+  );
+}
+
 export default function PhotoUploadSection({
   defaultGuestName = "",
 }: Props) {
@@ -39,7 +77,7 @@ export default function PhotoUploadSection({
     if (selectedFiles.length === 0) return;
 
     setUploading(true);
-    setMessage("");
+    setMessage("Comprimiendo y subiendo fotos...");
 
     const uploadedUrls: string[] = [];
 
@@ -50,36 +88,44 @@ export default function PhotoUploadSection({
         return;
       }
 
-      if (file.size > 5 * 1024 * 1024) {
-        setMessage("Cada imagen debe pesar menos de 5MB.");
+      if (file.size > MAX_ORIGINAL_SIZE_MB * 1024 * 1024) {
+        setMessage(`Cada imagen debe pesar menos de ${MAX_ORIGINAL_SIZE_MB}MB.`);
         setUploading(false);
         return;
       }
 
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${crypto.randomUUID()}.${fileExt}`;
-      const filePath = `photos/${fileName}`;
+      try {
+        const compressedFile = await compressImage(file);
 
-      const { error } = await supabase.storage
-        .from("event-photos")
-        .upload(filePath, file);
+        const fileName = compressedFile.name;
+        const filePath = `photos/${fileName}`;
 
-      if (error) {
-        setMessage("No se pudo subir una o más fotos.");
+        const { error } = await supabase.storage
+          .from("event-photos")
+          .upload(filePath, compressedFile);
+
+        if (error) {
+          setMessage("No se pudo subir una o más fotos.");
+          continue;
+        }
+
+        const { data } = supabase.storage
+          .from("event-photos")
+          .getPublicUrl(filePath);
+
+        uploadedUrls.push(data.publicUrl);
+
+        await savePhotoRecord({
+          guestName,
+          photoUrl: data.publicUrl,
+        });
+      } catch {
+        setMessage("No se pudo procesar una de las imágenes.");
         continue;
       }
-
-      const { data } = supabase.storage
-        .from("event-photos")
-        .getPublicUrl(filePath);
-
-      uploadedUrls.push(data.publicUrl);
-
-      await savePhotoRecord({
-        guestName,
-        photoUrl: data.publicUrl,
-      });
     }
+
+    event.target.value = "";
 
     setPreviews((current) => [...uploadedUrls, ...current]);
     setUploading(false);
