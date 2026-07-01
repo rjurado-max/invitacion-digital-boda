@@ -25,63 +25,63 @@ export default function TableFinder({
   };
 
   return (
-    <section id="mi-mesa" className="bg-white px-6 py-24">
-      <div className="mx-auto max-w-[520px] text-center">
-        <div className="mb-8 inline-flex rounded-full border border-[#e5dac6] bg-[#fbf6ed] px-5 py-3 text-xs font-bold tracking-[0.35em] text-[#9d7c43]">
+    <section id="mi-mesa" className="bg-white px-6 py-18">
+      <div className="mx-auto max-w-[500px] text-center">
+        <div className="mb-7 inline-flex rounded-full border border-[#e5dac6] bg-[#fbf6ed] px-5 py-2.5 text-[10px] font-bold tracking-[0.32em] text-[#9d7c43]">
           MAPA DE MESAS
         </div>
 
-        <h2 className="font-serif text-5xl leading-tight text-[#211b17]">
+        <h2 className="font-serif text-4xl leading-tight text-[#211b17] sm:text-5xl">
           ¿Cuál es mi mesa?
         </h2>
 
-        <p className="mt-8 text-2xl leading-relaxed text-neutral-600">
+        <p className="mt-7 text-xl leading-relaxed text-neutral-600 sm:text-2xl">
           Escribe tu nombre y encuentra dónde estarás sentado esta noche.
         </p>
 
         {tableNumber && (
-  <div className="mt-8 rounded-[1.5rem] border border-[#eadfce] bg-[#fbf6ed] p-6 text-center">
-    <p className="text-sm uppercase tracking-[0.3em] text-[#9d7c43]">
+  <div className="mt-7 rounded-[1.35rem] border border-[#eadfce] bg-[#fbf6ed] p-5 text-center">
+    <p className="text-[10px] font-black uppercase tracking-[0.28em] text-[#9d7c43]">
       Mesa asignada
     </p>
 
-    <p className="mt-3 font-serif text-5xl text-[#211b17]">
+    <p className="mt-3 font-serif text-4xl text-[#211b17]">
       {tableNumber}
     </p>
   </div>
 )}
 
         {EVENT_CONFIG.tableFinderEnabled ? (
-          <div className="mt-12 flex flex-col gap-4 sm:flex-row">
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <input
               value={name}
               onChange={(event) => setName(event.target.value)}
               placeholder="Escribe tu nombre completo..."
-              className="w-full rounded-[1.4rem] border border-[#eadfce] bg-[#fbf6ed] px-6 py-5 text-lg outline-none"
+              className="w-full rounded-[1.25rem] border border-[#eadfce] bg-[#fbf6ed] px-5 py-4 text-base outline-none"
             />
 
             <button
               onClick={searchTable}
               disabled={isPending}
-              className="rounded-[1.4rem] bg-black px-8 py-5 text-sm font-black tracking-[0.25em] text-white disabled:opacity-50"
+              className="rounded-[1.25rem] bg-black px-7 py-4 text-xs font-black tracking-[0.22em] text-white disabled:opacity-50"
             >
               {isPending ? "BUSCANDO" : "BUSCAR"}
             </button>
           </div>
         ) : (
-          <div className="mt-12 rounded-[1.8rem] border border-[#eadfce] bg-[#fbf6ed] p-8">
-            <p className="text-xl font-medium text-[#211b17]">
+          <div className="mt-10 rounded-[1.5rem] border border-[#eadfce] bg-[#fbf6ed] p-6">
+            <p className="text-lg font-medium leading-relaxed text-[#211b17]">
               La distribución de mesas estará disponible próximamente.
             </p>
 
-            <p className="mt-4 text-lg text-neutral-600">
+            <p className="mt-3 text-base leading-relaxed text-neutral-600">
               Estamos organizando cada detalle para brindarte la mejor experiencia.
             </p>
           </div>
         )}
 
         {result && (
-          <div className="mt-8 rounded-[1.5rem] border border-[#eadfce] bg-[#fbf6ed] p-6 text-xl text-neutral-700">
+          <div className="mt-7 rounded-[1.35rem] border border-[#eadfce] bg-[#fbf6ed] p-5 text-lg leading-relaxed text-neutral-700">
             {result}
           </div>
         )}

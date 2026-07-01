@@ -28,12 +28,12 @@ export default function HeroSection({ guestName, onOpenRsvp }: Props) {
 
       <div className="absolute inset-0 bg-black/50" />
 
-      <div className="relative z-10 mx-auto max-w-[520px]">
-        <div className="mb-10 inline-flex rounded-full border border-white/25 bg-white/10 px-5 py-3 text-xs font-bold tracking-[0.35em] text-[#e8d7ad]">
+      <div className="relative z-10 mx-auto max-w-[500px]">
+        <div className="mb-9 inline-flex rounded-full border border-white/20 bg-white/10 px-5 py-2.5 text-[10px] font-bold tracking-[0.32em] text-[#e8d7ad]">
           CELEBRAMOS NUESTRA BODA
         </div>
 
-        <h1 className="font-serif text-6xl leading-[0.95]">
+        <h1 className="font-serif text-5xl leading-[0.95] sm:text-6xl">
           {EVENT_CONFIG.brideName} &<br />
           {EVENT_CONFIG.groomName}
         </h1>
@@ -44,11 +44,11 @@ export default function HeroSection({ guestName, onOpenRsvp }: Props) {
           </p>
         )}
 
-        <p className="mt-8 text-2xl leading-relaxed text-white/85">
+        <p className="mt-7 text-xl leading-relaxed text-white/85 sm:text-2xl">
           Dos historias, un mismo destino. Dios unió nuestros caminos en Su perfecto tiempo y, con gratitud en nuestros corazones, te invitamos a acompañarnos en esta nueva etapa de nuestras vidas.
         </p>
 
-        <div className="mt-10 space-y-5">
+        <div className="mt-9 space-y-4">
           <button
             type="button"
             onClick={goToRsvp}
@@ -69,7 +69,7 @@ export default function HeroSection({ guestName, onOpenRsvp }: Props) {
             onClick={goToLocation}
             className="flex w-[68%] items-center justify-center gap-3 rounded-full bg-white/35 px-6 py-5 text-sm font-black tracking-[0.25em] text-white"
           >
-            <MapPin size={22} />
+            <MapPin size={22} className="shrink-0" />
             VER UBICACIÓN
           </button>
         </div>

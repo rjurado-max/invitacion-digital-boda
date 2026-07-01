@@ -46,12 +46,12 @@ export default function Countdown() {
   ];
 
   return (
-    <section className="bg-[#111] px-6 pb-20">
-      <div className="mx-auto grid max-w-[520px] grid-cols-4 overflow-hidden rounded-[2rem] border border-white/15 bg-white/10 text-center text-white backdrop-blur-md">
+    <section className="bg-[#111] px-6 pb-16">
+      <div className="mx-auto grid max-w-[500px] grid-cols-4 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/10 text-center text-white backdrop-blur-md">
         {items.map((item) => (
-          <div key={item.label} className="border-r border-white/15 px-2 py-7 last:border-r-0">
-            <p className="font-serif text-4xl font-bold">{item.value}</p>
-            <p className="mt-2 text-xs font-bold tracking-[0.35em] text-[#e8d7ad]">
+          <div key={item.label} className="border-r border-white/10 px-2 py-5 last:border-r-0">
+            <p className="font-serif text-3xl font-bold leading-none">{item.value}</p>
+            <p className="mt-2 text-[10px] font-bold tracking-[0.28em] text-[#e8d7ad]">
               {item.label}
             </p>
           </div>

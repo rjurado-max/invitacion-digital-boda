@@ -126,13 +126,13 @@ export default function GiftsSection() {
   };
 
   return (
-    <section id="regalos" className="bg-[#fbfaf8] px-6 py-24">
-      <div className="mx-auto max-w-[520px]">
+    <section id="regalos" className="bg-[#fbfaf8] px-6 py-18">
+      <div className="mx-auto max-w-[500px]">
         {view !== "home" && (
           <button
             type="button"
             onClick={view === "list" ? goCategories : goHome}
-            className="mb-8 inline-flex items-center gap-2 text-sm font-black tracking-[0.25em] text-[#9d7c43]"
+            className="mb-7 inline-flex items-center gap-2 text-xs font-black tracking-[0.22em] text-[#9d7c43]"
           >
             <ChevronLeft size={18} />
             VOLVER
@@ -142,36 +142,36 @@ export default function GiftsSection() {
         {view === "home" && (
           <>
             <div className="text-center">
-              <div className="mb-8 inline-flex rounded-full border border-[#e5dac6] bg-[#fbf6ed] px-5 py-3 text-xs font-bold tracking-[0.35em] text-[#9d7c43]">
+              <div className="mb-7 inline-flex rounded-full border border-[#e5dac6] bg-[#fbf6ed] px-5 py-2.5 text-[10px] font-bold tracking-[0.32em] text-[#9d7c43]">
                 MESA DE REGALOS
               </div>
 
-              <h2 className="font-serif text-5xl leading-tight text-[#211b17]">
+              <h2 className="font-serif text-4xl leading-tight text-[#211b17] sm:text-5xl">
                 Un detalle para nuestro nuevo hogar
               </h2>
 
-              <p className="mt-8 text-xl leading-relaxed text-neutral-600">
+              <p className="mt-7 text-lg leading-relaxed text-neutral-600 sm:text-xl">
                 El mejor regalo es tenerlos cerca en este capítulo tan especial
                 de nuestra historia. Si desean sumar un detalle a nuestro amor,
                 pueden hacerlo con un obsequio de su preferencia.
               </p>
             </div>
 
-            <div className="mt-14 space-y-5">
+            <div className="mt-12 space-y-4">
               <button
                 type="button"
                 onClick={goCategories}
-                className="flex w-full items-center gap-5 rounded-[2rem] border border-[#eadfce] bg-white p-8 text-left shadow-sm transition hover:border-black"
+                className="flex w-full items-center gap-4 rounded-[1.6rem] border border-[#eadfce] bg-white p-6 text-left shadow-sm transition hover:border-black"
               >
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#fbf6ed] text-[#9d7c43]">
-                  <Gift size={30} />
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#fbf6ed] text-[#9d7c43]">
+                  <Gift size={25} />
                 </div>
 
                 <div>
-                  <h3 className="font-serif text-3xl text-[#211b17]">
+                  <h3 className="font-serif text-2xl text-[#211b17]">
                     Elige un regalo
                   </h3>
-                  <p className="mt-2 text-lg text-neutral-600">
+                  <p className="mt-2 text-base leading-relaxed text-neutral-600">
                     Selecciona un detalle especial para los novios.
                   </p>
                 </div>
@@ -180,17 +180,17 @@ export default function GiftsSection() {
               <button
                 type="button"
                 onClick={() => setView("money")}
-                className="flex w-full items-center gap-5 rounded-[2rem] border border-[#eadfce] bg-white p-8 text-left shadow-sm transition hover:border-black"
+                className="flex w-full items-center gap-4 rounded-[1.6rem] border border-[#eadfce] bg-white p-6 text-left shadow-sm transition hover:border-black"
               >
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#fbf6ed] text-[#9d7c43]">
-                  <Wallet size={30} />
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#fbf6ed] text-[#9d7c43]">
+                  <Wallet size={25} />
                 </div>
 
                 <div>
-                  <h3 className="font-serif text-3xl text-[#211b17]">
+                  <h3 className="font-serif text-2xl text-[#211b17]">
                     Regalo económico
                   </h3>
-                  <p className="mt-2 text-lg text-neutral-600">
+                  <p className="mt-2 text-base leading-relaxed text-neutral-600">
                     También puedes realizar una colaboración económica.
                   </p>
                 </div>
@@ -202,18 +202,18 @@ export default function GiftsSection() {
         {view === "categories" && (
           <>
             <div className="text-center">
-              <h2 className="font-serif text-5xl leading-tight text-[#211b17]">
+              <h2 className="font-serif text-4xl leading-tight text-[#211b17] sm:text-5xl">
                 Regalos por categorías
               </h2>
             </div>
 
-            <div className="mt-12 space-y-4">
+            <div className="mt-10 space-y-3">
               {categories.map((category) => (
                 <button
                   key={category}
                   type="button"
                   onClick={() => goGiftList(category)}
-                  className="w-full rounded-2xl border border-[#eadfce] bg-white px-6 py-5 text-center text-lg font-semibold text-[#211b17] shadow-sm transition hover:border-black"
+                  className="w-full rounded-[1.35rem] border border-[#eadfce] bg-white px-6 py-4 text-center text-base font-semibold text-[#211b17] shadow-sm transition hover:border-black"
                 >
                   {category}
                 </button>
@@ -241,7 +241,7 @@ export default function GiftsSection() {
               </h2>
             </div>
 
-            <div className="mt-12 max-h-[720px] space-y-5 overflow-y-auto pr-1">
+            <div className="mt-10 max-h-[720px] space-y-4 overflow-y-auto pr-1">
               {giftsByCategory.length === 0 && (
                 <div className="rounded-[2rem] border border-[#eadfce] bg-white p-8 text-center text-lg text-neutral-600 shadow-sm">
                   No hay regalos disponibles en esta categoría.
@@ -254,14 +254,14 @@ export default function GiftsSection() {
                   type="button"
                   disabled={gift.selected}
                   onClick={() => goReserve(gift)}
-                  className={`w-full overflow-hidden rounded-[2rem] border text-left shadow-sm transition ${
+                  className={`w-full overflow-hidden rounded-[1.6rem] border text-left shadow-sm transition ${
                     gift.selected
                       ? "border-[#eadfce] bg-white opacity-45"
                       : "border-[#eadfce] bg-white hover:border-black"
                   }`}
                 >
                   {gift.imageUrl ? (
-                    <div className="flex h-56 w-full items-center justify-center bg-[#fbf6ed] px-4 py-4">
+                    <div className="flex h-48 w-full items-center justify-center bg-[#fbf6ed] px-4 py-4">
                       <img
                         src={gift.imageUrl}
                         alt={gift.name}
@@ -274,12 +274,12 @@ export default function GiftsSection() {
                     </div>
                   )}
 
-                  <div className="p-6">
-                    <h3 className="font-serif text-3xl text-[#211b17]">
+                  <div className="p-5">
+                    <h3 className="font-serif text-2xl text-[#211b17]">
                       {gift.name}
                     </h3>
 
-                    <div className="mt-4 flex items-center gap-2 text-sm font-black tracking-[0.25em] text-[#9d7c43]">
+                    <div className="mt-3 flex items-center gap-2 text-xs font-black tracking-[0.22em] text-[#9d7c43]">
                       {gift.selected ? (
                         <>
                           <Lock size={16} />

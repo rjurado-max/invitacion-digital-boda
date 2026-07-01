@@ -585,7 +585,7 @@ const handleImageDrop = (event: React.DragEvent<HTMLLabelElement>) => {
                     onDrop={handleImageDrop}
                     className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-[#d7c5aa] bg-[#fbf6ed] px-5 py-6 text-center transition hover:border-[#9d7c43] hover:bg-[#f6efe3]"
                     >
-                    <ImagePlus size={34} className="text-[#9d7c43]" />
+                    <ImagePlus size={30} className="text-[#9d7c43]" />
 
                     <span className="mt-3 text-sm font-black tracking-[0.2em] text-[#9d7c43]">
                         ARRASTRA UNA IMAGEN

@@ -41,45 +41,45 @@ const agenda = [
 
 export default function AgendaSection() {
   return (
-    <section className="bg-[#12100f] px-6 py-24 text-white">
-      <div className="mx-auto max-w-[520px]">
+    <section className="bg-[#12100f] px-6 py-18 text-white">
+      <div className="mx-auto max-w-[500px]">
         <div className="text-center">
-          <div className="mb-8 inline-flex rounded-full border border-white/20 bg-white/10 px-5 py-3 text-xs font-bold tracking-[0.35em] text-[#e8d7ad]">
+          <div className="mb-7 inline-flex rounded-full border border-white/15 bg-white/10 px-5 py-2.5 text-[10px] font-bold tracking-[0.32em] text-[#e8d7ad]">
             AGENDA
           </div>
 
-          <h2 className="font-serif text-5xl leading-tight">
+          <h2 className="font-serif text-4xl leading-tight sm:text-5xl">
             Programa de celebración
           </h2>
 
-          <p className="mt-8 text-2xl leading-relaxed text-white/70">
+          <p className="mt-7 text-xl leading-relaxed text-white/70 sm:text-2xl">
             Cada momento fue cuidadosamente organizado para vivir una noche
             impecable.
           </p>
         </div>
 
-        <div className="mt-16 space-y-7">
+        <div className="mt-12 space-y-5">
           {agenda.map((item) => {
             const Icon = item.icon;
 
             return (
               <article
                 key={`${item.time}-${item.title}`}
-                className="rounded-[2rem] border border-white/10 bg-white/10 p-8 backdrop-blur-md"
+                className="rounded-[1.6rem] border border-white/10 bg-white/10 p-6 backdrop-blur-md"
               >
-                <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-white/15 bg-white/10 text-[#e8d7ad]">
-                  <Icon size={30} />
+                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-white/15 bg-white/10 text-[#e8d7ad]">
+                  <Icon size={25} />
                 </div>
 
-                <p className="font-serif text-4xl font-bold text-[#e8d7ad]">
+                <p className="font-serif text-3xl font-bold text-[#e8d7ad]">
                   {item.time}
                 </p>
 
-                <h3 className="mt-7 font-serif text-4xl">
+                <h3 className="mt-5 font-serif text-3xl">
                   {item.title}
                 </h3>
 
-                <p className="mt-3 text-2xl text-white/60">
+                <p className="mt-3 text-xl leading-relaxed text-white/60">
                   {item.description}
                 </p>
               </article>

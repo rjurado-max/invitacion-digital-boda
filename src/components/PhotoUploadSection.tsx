@@ -137,26 +137,26 @@ export default function PhotoUploadSection({
   };
 
   return (
-    <section className="bg-[#fbfaf8] px-6 py-24">
-      <div className="mx-auto max-w-[520px] text-center">
-        <h2 className="font-serif text-5xl leading-tight text-[#211b17]">
+    <section className="bg-[#fbfaf8] px-6 py-18">
+      <div className="mx-auto max-w-[500px] text-center">
+        <h2 className="font-serif text-4xl leading-tight text-[#211b17] sm:text-5xl">
           Comparte tus fotos del evento
         </h2>
 
-        <p className="mt-8 text-2xl leading-relaxed text-neutral-600">
+        <p className="mt-7 text-xl leading-relaxed text-neutral-600 sm:text-2xl">
           Selecciona tus mejores recuerdos y compártelos con los novios.
         </p>
 
-        <div className="mt-10">
+        <div className="mt-8">
           <input
             value={guestName}
             onChange={(event) => setGuestName(event.target.value)}
             placeholder="Tu nombre completo"
-            className="w-full rounded-2xl border border-[#eadfce] px-5 py-4 text-lg outline-none"
+            className="w-full rounded-[1.35rem] border border-[#eadfce] px-5 py-3.5 text-base outline-none"
           />
         </div>
 
-        <label className="mt-10 block cursor-pointer rounded-[2rem] border border-dashed border-[#b99a63] bg-white p-10">
+        <label className="mt-8 block cursor-pointer rounded-[1.6rem] border border-dashed border-[#b99a63] bg-white p-8">
           <input
             type="file"
             accept="image/*"
@@ -166,58 +166,58 @@ export default function PhotoUploadSection({
             className="sr-only"
           />
 
-          <div className="mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-full border border-[#eadfce] bg-[#fbf6ed] text-[#9d7c43]">
-            <Upload size={42} />
+          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-[#eadfce] bg-[#fbf6ed] text-[#9d7c43]">
+            <Upload size={30} />
           </div>
 
-          <h3 className="font-serif text-4xl text-[#211b17]">Subir fotos</h3>
+          <h3 className="font-serif text-3xl text-[#211b17]">Subir fotos</h3>
 
-          <p className="mt-5 text-xl leading-relaxed text-neutral-600">
+          <p className="mt-4 text-lg leading-relaxed text-neutral-600">
             Selecciona imágenes desde tu celular o computadora.
           </p>
 
-          <span className="mt-8 inline-flex rounded-full bg-black px-8 py-5 text-sm font-black tracking-[0.25em] text-white">
+          <span className="mt-6 inline-flex rounded-full bg-black px-7 py-4 text-xs font-black tracking-[0.22em] text-white">
             {uploading ? "SUBIENDO..." : "SELECCIONAR ARCHIVOS"}
           </span>
         </label>
 
         {message && (
-          <div className="mt-6 rounded-2xl bg-white p-5 text-lg text-neutral-700">
+          <div className="mt-5 rounded-[1.35rem] bg-white p-4 text-base text-neutral-700">
             {message}
           </div>
         )}
 
         {previews.length > 0 && (
-          <div className="mt-10 grid grid-cols-2 gap-4">
+          <div className="mt-8 grid grid-cols-2 gap-3">
             {previews.map((photoUrl) => (
               <img
                 key={photoUrl}
                 src={photoUrl}
                 alt="Foto subida"
-                className="h-44 w-full rounded-2xl object-cover"
+                className="h-40 w-full rounded-[1.35rem] object-cover"
               />
             ))}
           </div>
         )}
 
-        <div className="mt-12">
-          <h3 className="mb-8 text-center font-serif text-3xl text-[#211b17]">
+        <div className="mt-10">
+          <h3 className="mb-6 text-center font-serif text-2xl text-[#211b17]">
             Galería del evento
           </h3>
 
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
             {gallery.map((photo) => (
               <div
                 key={photo.id}
-                className="overflow-hidden rounded-2xl bg-white"
+                className="overflow-hidden rounded-[1.35rem] bg-white"
               >
                 <img
                   src={photo.photo_url}
                   alt={photo.guest_name || "Foto del evento"}
-                  className="h-48 w-full object-cover"
+                  className="h-40 w-full object-cover"
                 />
 
-                <div className="p-2 text-center text-sm">
+                <div className="p-2 text-center text-xs">
                   {photo.guest_name}
                 </div>
               </div>

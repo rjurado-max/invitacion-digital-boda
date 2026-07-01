@@ -119,34 +119,34 @@ export default function RsvpSection({ guest = null }: Props) {
   return (
     <section
       id="rsvp"
-      className="relative overflow-hidden bg-black px-6 py-24 text-white"
+      className="relative overflow-hidden bg-black px-6 py-18 text-white"
     >
       <div className="absolute inset-0 bg-[url('/images/rsvp.jpg')] bg-cover bg-center opacity-45" />
       <div className="absolute inset-0 bg-black/55" />
 
-      <div className="relative z-10 mx-auto max-w-[520px] text-center">
-        <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-full border border-white/25 bg-white/10 text-[#e8d7ad]">
-          <Heart size={34} />
+      <div className="relative z-10 mx-auto max-w-[500px] text-center">
+        <div className="mx-auto mb-7 flex h-16 w-16 items-center justify-center rounded-full border border-white/20 bg-white/10 text-[#e8d7ad]">
+          <Heart size={28} />
         </div>
 
-        <h2 className="font-serif text-5xl leading-tight">
+        <h2 className="font-serif text-4xl leading-tight sm:text-5xl">
           Nos encantará celebrar contigo
         </h2>
 
         {guest && (
-          <p className="mt-5 text-xl text-[#e8d7ad]">
+          <p className="mt-4 text-lg text-[#e8d7ad]">
             Confirmación personalizada para {guest.full_name}
           </p>
         )}
 
-        <p className="mt-8 text-2xl leading-relaxed text-white/80">
+        <p className="mt-7 text-xl leading-relaxed text-white/80 sm:text-2xl">
           Confirma tu asistencia y acompáñanos en una noche diseñada para
           celebrar el amor.
         </p>
 
         <form
           onSubmit={submitForm}
-          className="mt-12 space-y-5 rounded-[2rem] border border-white/15 bg-white/10 p-6 text-left backdrop-blur-md"
+          className="mt-10 space-y-4 rounded-[1.6rem] border border-white/10 bg-white/10 p-5 text-left backdrop-blur-md"
         >
           <input
             name="fullName"
@@ -167,7 +167,7 @@ export default function RsvpSection({ guest = null }: Props) {
             maxLength={MAX_FULL_NAME_LENGTH}
             readOnly={Boolean(guest)}
             placeholder="Nombre completo"
-            className={`w-full rounded-2xl bg-white px-5 py-4 text-lg text-black outline-none transition read-only:bg-white/90 ${
+            className={`w-full rounded-[1.35rem] bg-white px-5 py-3.5 text-base text-black outline-none transition read-only:bg-white/90 ${
               fullNameError
                 ? "border-2 border-red-500"
                 : "border-2 border-transparent"
@@ -198,7 +198,7 @@ export default function RsvpSection({ guest = null }: Props) {
             placeholder="Celular"
             inputMode="numeric"
             maxLength={9}
-            className={`w-full rounded-2xl bg-white px-5 py-4 text-lg text-black outline-none transition ${
+            className={`w-full rounded-[1.35rem] bg-white px-5 py-3.5 text-base text-black outline-none transition ${
               phoneError
                 ? "border-2 border-red-500"
                 : "border-2 border-transparent"
@@ -217,7 +217,7 @@ export default function RsvpSection({ guest = null }: Props) {
               onClick={() =>
                 setShowAttendanceOptions(!showAttendanceOptions)
               }
-              className="flex w-full items-center justify-between rounded-2xl bg-white px-5 py-4 text-left text-lg text-black outline-none"
+              className="flex w-full items-center justify-between rounded-[1.35rem] bg-white px-5 py-3.5 text-left text-base text-black outline-none"
             >
               <span>
                 {form.attendance === "SI"
@@ -234,14 +234,14 @@ export default function RsvpSection({ guest = null }: Props) {
             </button>
 
             {showAttendanceOptions && (
-              <div className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-2xl border border-white/20 bg-white shadow-xl">
+              <div className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-[1.35rem] border border-white/20 bg-white shadow-lg">
                 <button
                   type="button"
                   onClick={() => {
                     setForm({ ...form, attendance: "SI" });
                     setShowAttendanceOptions(false);
                   }}
-                  className={`w-full px-5 py-4 text-left text-lg transition ${
+                  className={`w-full px-5 py-3.5 text-left text-base transition ${
                     form.attendance === "SI"
                       ? "bg-[#fbf6ed] font-semibold text-[#9d7c43]"
                       : "text-black hover:bg-[#fbf6ed]"
@@ -256,7 +256,7 @@ export default function RsvpSection({ guest = null }: Props) {
                     setForm({ ...form, attendance: "NO" });
                     setShowAttendanceOptions(false);
                   }}
-                  className={`w-full px-5 py-4 text-left text-lg transition ${
+                  className={`w-full px-5 py-3.5 text-left text-base transition ${
                     form.attendance === "NO"
                       ? "bg-[#fbf6ed] font-semibold text-[#9d7c43]"
                       : "text-black hover:bg-[#fbf6ed]"
@@ -274,20 +274,20 @@ export default function RsvpSection({ guest = null }: Props) {
             onChange={updateField}
             placeholder="Mensaje para los novios"
             rows={4}
-            className="w-full rounded-2xl bg-white px-5 py-4 text-lg text-black outline-none"
+            className="w-full rounded-[1.35rem] bg-white px-5 py-3.5 text-base text-black outline-none"
           />
 
           <button
             disabled={isPending}
-            className="flex w-full items-center justify-center gap-3 rounded-full bg-white px-6 py-5 text-sm font-black tracking-[0.25em] text-black disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-3 rounded-full bg-white px-6 py-4 text-xs font-black tracking-[0.22em] text-black disabled:opacity-60"
           >
-            <CheckCircle2 size={22} />
+            <CheckCircle2 size={20} />
             {isPending ? "REGISTRANDO..." : "CONFIRMAR RSVP"}
           </button>
         </form>
 
         {result && (
-          <div className="mt-8 rounded-[1.5rem] bg-white p-6 text-xl font-bold text-black">
+          <div className="mt-7 rounded-[1.35rem] bg-white p-5 text-lg font-bold text-black">
             {result}
           </div>
         )}
