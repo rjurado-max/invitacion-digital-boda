@@ -1,6 +1,11 @@
 "use server";
 
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 type RsvpPayload = {
   guestId?: string | null;
@@ -84,7 +89,7 @@ export async function submitRsvp(payload: RsvpPayload) {
 
   const { data: existingRsvps, error: existingError } = await supabase
     .from("rsvps")
-    .select("id, guest_id, full_name, phone");
+    .select("id, guest_id, full_name, phone, table_number");
 
   if (existingError) {
     return {
@@ -93,23 +98,65 @@ export async function submitRsvp(payload: RsvpPayload) {
     };
   }
 
-  const duplicateRsvp = (existingRsvps ?? []).find((rsvp) => {
-    const sameGuest = guest?.id && rsvp.guest_id === guest.id;
-    const samePhone = rsvp.phone === phone;
-    const sameName = normalizeText(rsvp.full_name ?? "") === normalizedNameToSave;
+  const sameGuestRsvp = (existingRsvps ?? []).find(
+    (rsvp) => guest?.id && rsvp.guest_id === guest.id
+  );
 
-    return sameGuest || samePhone || sameName;
-  });
+  const samePhoneRsvp = (existingRsvps ?? []).find(
+    (rsvp) => rsvp.phone === phone
+  );
 
-  if (duplicateRsvp) {
+  const sameNameRsvp = (existingRsvps ?? []).find(
+    (rsvp) => normalizeText(rsvp.full_name ?? "") === normalizedNameToSave
+  );
+
+  if (
+    sameNameRsvp &&
+    sameNameRsvp.phone !== phone &&
+    sameNameRsvp.id !== sameGuestRsvp?.id &&
+    sameNameRsvp.id !== samePhoneRsvp?.id
+  ) {
     return {
       success: false,
       message:
-        "Ya existe una confirmación registrada con este nombre o número de celular.",
+        "Ya existe una confirmación registrada con este nombre. Verifica tus datos o comunícate con los novios.",
     };
   }
 
+  const existingRsvp = sameGuestRsvp ?? samePhoneRsvp ?? sameNameRsvp ?? null;
+
   const totalAttendees = payload.attendance === "SI" ? 1 + companions : 0;
+
+  if (existingRsvp) {
+    const { data: updatedRsvp, error } = await supabase
+      .from("rsvps")
+      .update({
+        full_name: nameToSave,
+        phone,
+        attendance: payload.attendance,
+        companions,
+        message: payload.message.trim(),
+        total_attendees: totalAttendees,
+      })
+      .eq("id", existingRsvp.id)
+      .select("id, full_name, phone")
+      .maybeSingle();
+
+    if (error || !updatedRsvp) {
+      return {
+        success: false,
+        message: "No se pudo actualizar tu confirmación. Inténtalo nuevamente.",
+      };
+    }
+
+    return {
+      success: true,
+      message:
+        payload.attendance === "SI"
+          ? "Tu confirmación fue actualizada correctamente."
+          : "Actualizamos que no podrás asistir.",
+    };
+  }
 
   const { error } = await supabase.from("rsvps").insert({
     guest_id: guest?.id ?? null,
