@@ -101,6 +101,13 @@ export default function GiftsSection() {
     setSelectedGiftId("");
     setResult("");
     setView("list");
+
+    setTimeout(() => {
+      document.getElementById("regalos")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 100);
   };
 
   const goReserve = (gift: GiftItem) => {
@@ -255,7 +262,7 @@ export default function GiftsSection() {
               </h2>
             </div>
 
-            <div className="mt-10 max-h-[720px] space-y-4 overflow-y-auto pr-1">
+            <div className="mt-10 max-h-[68vh] space-y-4 overflow-y-auto overscroll-contain pr-1 sm:max-h-[720px]">
               {giftsByCategory.length === 0 && (
                 <div className="rounded-[2rem] border border-[#eadfce] bg-white p-8 text-center text-lg text-neutral-600 shadow-sm">
                   No hay regalos disponibles en esta categoría.
