@@ -18,6 +18,7 @@ type Props = {
 const MAX_ORIGINAL_SIZE_MB = 40;
 const MAX_IMAGE_WIDTH = 1800;
 const IMAGE_QUALITY = 0.82;
+const MAX_GUEST_NAME_LENGTH = 40;
 
 async function compressImage(file: File): Promise<File> {
   const imageBitmap = await createImageBitmap(file);
@@ -150,7 +151,14 @@ export default function PhotoUploadSection({
         <div className="mt-8">
           <input
             value={guestName}
-            onChange={(event) => setGuestName(event.target.value)}
+            onChange={(event) => {
+              const value = event.target.value
+                .replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]/g, "")
+                .slice(0, MAX_GUEST_NAME_LENGTH);
+
+              setGuestName(value);
+            }}
+            maxLength={MAX_GUEST_NAME_LENGTH}
             placeholder="Tu nombre completo"
             className="w-full rounded-[1.35rem] border border-[#eadfce] px-5 py-3.5 text-base outline-none"
           />
