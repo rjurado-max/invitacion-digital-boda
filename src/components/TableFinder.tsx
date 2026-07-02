@@ -9,6 +9,8 @@ type Props = {
   tableNumber?: string | null;
 };
 
+const MAX_NAME_LENGTH = 40;
+
 export default function TableFinder({
   defaultGuestName = "",
   tableNumber,
@@ -55,7 +57,14 @@ export default function TableFinder({
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <input
               value={name}
-              onChange={(event) => setName(event.target.value)}
+              onChange={(event) => {
+                const value = event.target.value
+                  .replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]/g, "")
+                  .slice(0, MAX_NAME_LENGTH);
+
+                setName(value);
+              }}
+              maxLength={MAX_NAME_LENGTH}
               placeholder="Escribe tu nombre completo..."
               className="w-full rounded-[1.25rem] border border-[#eadfce] bg-[#fbf6ed] px-5 py-4 text-base outline-none"
             />
