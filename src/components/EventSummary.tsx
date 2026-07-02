@@ -14,7 +14,7 @@ export default function EventSummary() {
           <div className="rounded-[1.5rem] bg-white/10 p-6">
             <Clock size={22} className="mb-3 text-[#e8d7ad]" />
             <p className="text-lg font-bold leading-snug">
-              Ceremonia {EVENT_CONFIG.ceremony.time}
+              Recibimiento {EVENT_CONFIG.ceremony.time}
             </p>
           </div>
 
