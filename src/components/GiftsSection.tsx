@@ -147,7 +147,7 @@ export default function GiftsSection() {
   };
 
   return (
-    <section id="regalos" className="scroll-mt-20 bg-[#fbfaf8] px-6 py-18">
+    <section id="regalos" className="bg-[#fbfaf8] px-6 py-18">
       <div className="mx-auto max-w-[500px]">
         {view !== "home" && (
           <button
@@ -262,7 +262,7 @@ export default function GiftsSection() {
               </h2>
             </div>
 
-            <div className="mt-10 max-h-[68dvh] space-y-4 overflow-y-auto overscroll-contain pb-20 pr-1 sm:max-h-[720px]">
+            <div className="mt-10 max-h-[68vh] space-y-4 overflow-y-auto overscroll-contain pr-1 sm:max-h-[720px]">
               {giftsByCategory.length === 0 && (
                 <div className="rounded-[2rem] border border-[#eadfce] bg-white p-8 text-center text-lg text-neutral-600 shadow-sm">
                   No hay regalos disponibles en esta categoría.
