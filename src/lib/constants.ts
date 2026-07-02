@@ -7,7 +7,7 @@ export const EVENT_CONFIG = {
   eventDate: "2026-09-05T14:00:00-10:00",
 
   ceremony: {
-    time: "3:15 PM",
+    time: "2:00 PM",
     title: "Salón de Eventos Villa del Mar",
     address: "Calle las Petunias, Villa el Salvador 15842, Lima",
     mapsUrl: "https://maps.app.goo.gl/NVyXm44biXpQ79W49?g_st=awb",
