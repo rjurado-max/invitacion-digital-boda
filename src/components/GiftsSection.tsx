@@ -30,6 +30,8 @@ type GiftView =
   | "success"
   | "money";
 
+const MAX_GUEST_NAME_LENGTH = 40;
+
 export default function GiftsSection() {
   const [gifts, setGifts] = useState<GiftItem[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
@@ -317,7 +319,14 @@ export default function GiftsSection() {
             <div className="mt-6 space-y-4">
               <input
                 value={guestName}
-                onChange={(event) => setGuestName(event.target.value)}
+                onChange={(event) => {
+                  const value = event.target.value
+                    .replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]/g, "")
+                    .slice(0, MAX_GUEST_NAME_LENGTH);
+
+                  setGuestName(value);
+                }}
+                maxLength={MAX_GUEST_NAME_LENGTH}
                 placeholder="Tu nombre completo"
                 className="w-full rounded-2xl border border-[#eadfce] px-5 py-4 text-lg outline-none"
               />
