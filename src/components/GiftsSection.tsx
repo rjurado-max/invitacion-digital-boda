@@ -84,6 +84,18 @@ export default function GiftsSection() {
     setResult("");
   };
 
+  const goMoney = () => {
+    setResult("");
+    setView("money");
+
+    setTimeout(() => {
+      document.getElementById("regalos")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 100);
+  };
+
   const goGiftList = (category: string) => {
     setSelectedCategory(category);
     setSelectedGiftId("");
@@ -181,7 +193,7 @@ export default function GiftsSection() {
 
               <button
                 type="button"
-                onClick={() => setView("money")}
+                onClick={goMoney}
                 className="flex w-full items-center gap-4 rounded-[1.6rem] border border-[#eadfce] bg-white p-6 text-left shadow-sm transition hover:border-black"
               >
                 <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#fbf6ed] text-[#9d7c43]">
