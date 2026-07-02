@@ -245,6 +245,14 @@ export default function GiftsSection() {
 
         {view === "list" && (
           <>
+            <button
+              type="button"
+              onClick={goCategories}
+              className="fixed bottom-24 left-5 z-40 inline-flex items-center gap-2 rounded-full border border-[#eadfce] bg-white px-4 py-3 text-[10px] font-black tracking-[0.22em] text-[#9d7c43] shadow-lg md:hidden"
+            >
+              <ChevronLeft size={16} />
+              VOLVER
+            </button>
             <div className="text-center">
               <h2
                 className="
@@ -262,7 +270,7 @@ export default function GiftsSection() {
               </h2>
             </div>
 
-            <div className="mt-10 max-h-[68vh] space-y-4 overflow-y-auto overscroll-contain pr-1 sm:max-h-[720px]">
+            <div className="mt-10 max-h-[68vh] space-y-4 overflow-y-auto overscroll-contain pb-14 pr-1 sm:max-h-[720px]">
               {giftsByCategory.length === 0 && (
                 <div className="rounded-[2rem] border border-[#eadfce] bg-white p-8 text-center text-lg text-neutral-600 shadow-sm">
                   No hay regalos disponibles en esta categoría.
