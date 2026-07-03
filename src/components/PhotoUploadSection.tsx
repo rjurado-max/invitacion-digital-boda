@@ -19,6 +19,7 @@ const MAX_ORIGINAL_SIZE_MB = 40;
 const MAX_IMAGE_WIDTH = 1800;
 const IMAGE_QUALITY = 0.82;
 const MAX_GUEST_NAME_LENGTH = 40;
+const MAX_FILES_PER_UPLOAD = 5;
 
 async function compressImage(file: File): Promise<File> {
   const imageBitmap = await createImageBitmap(file);
@@ -76,6 +77,14 @@ export default function PhotoUploadSection({
     const selectedFiles = Array.from(event.target.files || []);
 
     if (selectedFiles.length === 0) return;
+
+    if (selectedFiles.length > MAX_FILES_PER_UPLOAD) {
+      setMessage(
+        `Solo puedes subir un máximo de ${MAX_FILES_PER_UPLOAD} fotos por vez.`
+      );
+      event.target.value = "";
+      return;
+    }
 
     setUploading(true);
     setMessage("Comprimiendo y subiendo fotos...");
