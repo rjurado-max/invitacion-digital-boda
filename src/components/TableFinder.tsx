@@ -17,11 +17,23 @@ export default function TableFinder({
 }: Props) {
   const [name, setName] = useState(defaultGuestName);
   const [result, setResult] = useState("");
+  const [nameError, setNameError] = useState("");
   const [isPending, startTransition] = useTransition();
 
   const searchTable = () => {
+    const cleanName = name.trim().replace(/\s+/g, " ");
+    const nameParts = cleanName.split(" ");
+
+    setNameError("");
+    setResult("");
+
+    if (nameParts.length < 2) {
+      setNameError("Ingresa al menos un nombre y un apellido para buscar tu mesa.");
+      return;
+    }
+
     startTransition(async () => {
-      const response = await findGuestTable(name);
+      const response = await findGuestTable(cleanName);
       setResult(response.message);
     });
   };
@@ -38,7 +50,7 @@ export default function TableFinder({
         </h2>
 
         <p className="mt-7 text-xl leading-relaxed text-neutral-600 sm:text-2xl">
-          Escribe tu nombre y encuentra dónde estarás sentado esta noche.
+          Escribe al menos un nombre y un apellido y encuentra dónde estarás sentado esta noche.
         </p>
 
         {tableNumber && (
@@ -63,6 +75,7 @@ export default function TableFinder({
                   .slice(0, MAX_NAME_LENGTH);
 
                 setName(value);
+                setNameError("");
               }}
               maxLength={MAX_NAME_LENGTH}
               placeholder="Escribe tu nombre completo..."
@@ -76,6 +89,12 @@ export default function TableFinder({
             >
               {isPending ? "BUSCANDO" : "BUSCAR"}
             </button>
+
+            {nameError && (
+              <p className="mt-3 text-sm font-medium text-red-500">
+                {nameError}
+              </p>
+            )}
           </div>
         ) : (
           <div className="mt-10 rounded-[1.5rem] border border-[#eadfce] bg-[#fbf6ed] p-6">
