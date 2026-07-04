@@ -70,6 +70,15 @@ export default function GiftsSection() {
     loadGifts();
   }, []);
 
+  const scrollToGifts = () => {
+    setTimeout(() => {
+      document.getElementById("regalos")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 100);
+  };
+
   const goHome = () => {
     setView("home");
     setSelectedCategory("");
@@ -82,18 +91,13 @@ export default function GiftsSection() {
     setSelectedCategory("");
     setSelectedGiftId("");
     setResult("");
+    scrollToGifts();
   };
 
   const goMoney = () => {
     setResult("");
     setView("money");
-
-    setTimeout(() => {
-      document.getElementById("regalos")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 100);
+    scrollToGifts();
   };
 
   const goGiftList = (category: string) => {
@@ -102,12 +106,7 @@ export default function GiftsSection() {
     setResult("");
     setView("list");
 
-    setTimeout(() => {
-      document.getElementById("regalos")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 100);
+    scrollToGifts();
   };
 
   const goReserve = (gift: GiftItem) => {
@@ -118,6 +117,7 @@ export default function GiftsSection() {
     setMessage("");
     setResult("");
     setView("reserve");
+    scrollToGifts();
   };
 
   const reserveGift = () => {
@@ -222,6 +222,14 @@ export default function GiftsSection() {
 
         {view === "categories" && (
           <>
+            <button
+              type="button"
+              onClick={goHome}
+              className="fixed bottom-24 left-5 z-40 inline-flex items-center gap-2 rounded-full border border-[#eadfce] bg-white px-4 py-3 text-[10px] font-black tracking-[0.22em] text-[#9d7c43] shadow-lg md:hidden"
+            >
+              <ChevronLeft size={16} />
+              VOLVER
+            </button>
             <div className="text-center">
               <h2 className="font-serif text-4xl leading-tight text-[#211b17] sm:text-5xl">
                 Regalos por categorías
@@ -329,7 +337,17 @@ export default function GiftsSection() {
         )}
 
         {view === "reserve" && selectedGift && (
-          <div className="rounded-[2rem] border border-[#eadfce] bg-white p-6 shadow-sm">
+          <>
+            <button
+              type="button"
+              onClick={goHome}
+              className="fixed bottom-24 left-5 z-40 inline-flex items-center gap-2 rounded-full border border-[#eadfce] bg-white px-4 py-3 text-[10px] font-black tracking-[0.22em] text-[#9d7c43] shadow-lg md:hidden"
+            >
+              <ChevronLeft size={16} />
+              VOLVER
+            </button>
+
+            <div className="rounded-[2rem] border border-[#eadfce] bg-white p-6 shadow-sm">
             <h2 className="font-serif text-4xl text-[#211b17]">
               Reservar regalo
             </h2>
@@ -382,8 +400,9 @@ export default function GiftsSection() {
                 {result}
               </div>
             )}
-          </div>
-        )}
+              </div>
+            </>
+          )}
 
         {view === "success" && (
           <div className="rounded-[2rem] border border-[#eadfce] bg-white p-8 text-center shadow-sm">
