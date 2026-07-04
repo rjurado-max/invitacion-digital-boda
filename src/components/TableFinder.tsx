@@ -50,7 +50,7 @@ export default function TableFinder({
         </h2>
 
         <p className="mt-7 text-xl leading-relaxed text-neutral-600 sm:text-2xl">
-          Escribe al menos un nombre y un apellido y encuentra dónde estarás sentado esta noche.
+          Escribe tu nombre y encuentra dónde estarás sentado esta noche.
         </p>
 
         {tableNumber && (
