@@ -16,14 +16,14 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://invitacion-digital-boda-gamma.vercel.app"),
   title: "Frances & Roger — Nuestra Boda",
   description:
-    "Acompáñanos en el inicio de nuestra nueva historia. Confirma tu asistencia y conoce todos los detalles de este día tan especial.",
+    "💍 Con mucha alegría queremos invitarte a compartir uno de los días más importantes de nuestras vidas. Nos llenaría de felicidad contar con tu presencia. ❤️",
   other: {
     google: "notranslate",
   },
   openGraph: {
     title: "Frances & Roger — Nuestra Boda",
     description:
-      "Acompáñanos en el inicio de nuestra nueva historia. Confirma tu asistencia y conoce todos los detalles de este día tan especial.",
+      "💍 Con mucha alegría queremos invitarte a compartir uno de los días más importantes de nuestras vidas. Nos llenaría de felicidad contar con tu presencia. ❤️",
     url: "https://invitacion-digital-boda-gamma.vercel.app",
     siteName: "Frances & Roger",
     images: [
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Frances & Roger — Nuestra Boda",
     description:
-      "Acompáñanos en el inicio de nuestra nueva historia. Confirma tu asistencia y conoce todos los detalles de este día tan especial.",
+      "💍 Con mucha alegría queremos invitarte a compartir uno de los días más importantes de nuestras vidas. Nos llenaría de felicidad contar con tu presencia. ❤️",
     images: ["/images/og-image.jpg"],
   },
 };
