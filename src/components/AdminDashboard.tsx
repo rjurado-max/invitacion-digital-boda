@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { deleteRsvp, getAdminDashboardData } from "@/actions/admin-actions";
 import { deletePhoto } from "@/actions/admin-photo-actions";
 import { deleteGiftSelection } from "@/actions/admin-gift-actions";
@@ -29,6 +29,25 @@ export default function AdminDashboard() {
   const [isPending, startTransition] = useTransition();
   const [view, setView] = useState<"dashboard" | "gifts" | "tables">("dashboard");
 
+  useEffect(() => {
+    const savedCode = localStorage.getItem("admin-code");
+
+    if (!savedCode) return;
+
+    setAdminCode(savedCode);
+
+    startTransition(async () => {
+      const response = await getAdminDashboardData(savedCode);
+
+      if (response.success) {
+        setData(response.data);
+        setMessage("");
+      } else {
+        localStorage.removeItem("admin-code");
+      }
+    });
+  }, []);
+
   const loadDashboard = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -36,6 +55,10 @@ export default function AdminDashboard() {
       const response = await getAdminDashboardData(adminCode);
       setMessage(response.message);
       setData(response.data);
+
+      if (response.success) {
+        localStorage.setItem("admin-code", adminCode);
+      }
     });
   };
 
