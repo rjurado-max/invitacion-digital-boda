@@ -54,7 +54,7 @@ export default function DetailsSection({ onOpenRsvp }: Props) {
             </h3>
 
             <p className="mt-4 text-xl leading-relaxed text-neutral-600">
-              Agradecemos confirmar tu asistencia antes del 15 de Julio.
+              Agradecemos puedas confirmar tu asistencia con anticipación.
             </p>
 
             <button
